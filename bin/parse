@@ -1,25 +1,27 @@
 #!/usr/bin/env python3
 
-import io
 import os
 import sys
 import argparse
 
 import wnix
 
-METHODS = ('pypdf', 'pymupdf', 'pdfplumber', 'pypdfium2')
+TYPES = ['pdf']
 
 parser = argparse.ArgumentParser('parse')
 parser.add_argument('path', nargs='?')
-parser.add_argument('-m', '--method', choices=METHODS, default='pypdf')
+parser.add_argument('-t', '--type', choices=TYPES, default='pdf')
 args = parser.parse_args()
 
 if args.path is not None:
     file = open(args.path, 'rb')
 else:
-    file = io.BytesIO(sys.stdin.buffer.read())
+    file = sys.stdin.buffer
 
-text = wnix.pdf_to_text(file, method=args.method)
+if args.type == 'pdf':
+    text = wnix.pdf_to_text(file)
+else:
+    raise TypeError(f"Type must be one of: {TYPES}")
 
 # write to stdout
 sys.stdout.write(text)
