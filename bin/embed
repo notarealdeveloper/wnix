@@ -11,7 +11,8 @@ parser.add_argument('path', nargs='?')
 parser.add_argument('-s', '--size', choices=MODELS, default='small')
 args = parser.parse_args()
 
-model = wnix.embed.FlagEmbed(args.size)
+model = wnix.embed.Flag(args.size)
+
 if args.path:
     text = open(args.path).read()
 else:

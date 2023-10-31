@@ -6,10 +6,10 @@ for the same reasons that neural networks are.
 """
 
 __all__ = [
-    'FlagEmbed',
+    'Flag',
 ]
 
-class FlagEmbed:
+class Flag:
 
     from functools import lru_cache
 
@@ -17,14 +17,15 @@ class FlagEmbed:
 
     @classmethod
     @lru_cache(maxsize=1)
-    def load_model(cls, size):
-        if size not in cls.SIZES:
-            raise ValueError(f"size must be one of: {cls.SIZES}")
+    def load_model(cls, name):
         from sentence_transformers import SentenceTransformer
-        return SentenceTransformer(f"BAAI/bge-{size}-en-v1.5")
+        return SentenceTransformer(name)
 
     def __init__(self, size='large'):
-        self.model = self.load_model()
+        if size not in self.SIZES:
+            raise ValueError(f"size must be one of: {self.SIZES}")
+        self.name = f"BAAI/bge-{size}-en-v1.5"
+        self.model = self.load_model(self.name)
 
     def __call__(self, text, normalize=False):
         return self.model.encode(text, normalize_embeddings=normalize)
