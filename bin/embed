@@ -1,22 +1,23 @@
 #!/usr/bin/env python3
 
 import sys
-import gzip
 import wnix
-import base64
+import argparse
 
-model = wnix.embed.FlagEmbed()
-stdin = sys.stdin.read()
-embed = model(stdin)
-embed = [float(f"{s:.03f}") for s in embed.tolist()]
-line = json.dumps(embed)
+MODELS = ['small', 'base', 'large']
 
-args = set(sys.argv[1:])
-if {'-s', '--squeeze'} & args:
-    line = line.replace(' ', '')
-if {'-z', '--gzip'} & args:
-    line = gzip.compress(line.encode())
-if {'-b', '--base64'} & args:
-    line = base64.encodebytes(line).decode().replace('\n', '')
+parser = argparse.ArgumentParser('embed')
+parser.add_argument('path', nargs='?')
+parser.add_argument('-s', '--size', choices=MODELS, default='small')
+args = parser.parse_args()
 
-print(line)
+model = wnix.embed.FlagEmbed(args.size)
+if args.path:
+    text = open(args.path).read()
+else:
+    text = sys.stdin.read()
+
+embed = model(text)
+
+sys.stdout.buffer.write(embed)
+
