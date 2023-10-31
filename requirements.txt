@@ -1,10 +1,10 @@
-# requirements
-
-## base
-numpy
-
-## parse
+# input
 pypdf
 
-## embed
+# think
 sentence_transformers
+
+# pipes
+numpy
+
+# output
