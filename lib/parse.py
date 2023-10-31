@@ -2,21 +2,13 @@ __all__ = [
     'pdf_to_text',
 ]
 
-from langchain import document_loaders
+import io
+import pypdf
 
-DEFAULT_METHOD = 'PyPDF'
-
-LOADERS = {k:v for k,v in vars(document_loaders).items() if 'PDF' in k}
-LOADERS = {k.lower().replace('loader', ''):v for k,v in LOADERS.items()}
-
-def pdf_to_langchain_documents(path, method):
-    """ Returns a list of langchain Document objects. """
-    Loader = LOADERS[method]
-    loader = Loader(path)
-    return loader.load()
-
-def pdf_to_text(path, method=DEFAULT_METHOD):
-    docs = pdf_to_langchain_documents(path, method)
-    pages = [doc.page_content for doc in docs]
-    return '\n'.join(pages)
-
+def pdf_to_text(file):
+    if isinstance(file, io.IOBase):
+        # ensure file is seekable to support stdin.
+        file = io.BytesIO(file.read())
+    reader = pypdf.PdfReader(file)
+    pages = [page.extract_text() for page in reader.pages]
+    return '\n\n'.join(pages)
