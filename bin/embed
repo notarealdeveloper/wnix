@@ -19,6 +19,6 @@ else:
     text = sys.stdin.read()
 
 embed = model(text)
+embed = embed.tobytes()
 
 sys.stdout.buffer.write(embed)
-
