@@ -1,0 +1,13 @@
+# requirements
+
+# embed
+sentence_transformers
+
+# parse
+langchain
+pypdf
+
+# optional
+pymupdf
+pypdfium2
+pdfplumber
