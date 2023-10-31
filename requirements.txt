@@ -1,13 +1,10 @@
 # requirements
 
-# embed
-sentence_transformers
+## base
+numpy
 
-# parse
-langchain
+## parse
 pypdf
 
-# optional
-pymupdf
-pypdfium2
-pdfplumber
+## embed
+sentence_transformers
