@@ -35,3 +35,21 @@ cat file.txt | embed --size small
 
 cat file.txt | embed --size large > file.vec
 ```
+
+### numpy
+
+stdin to numpy.
+
+wnix coreutils support for multidimensional arrays.
+
+```sh
+cat file.vec | numpy
+
+cat file.vec | numpy --to json
+
+cat file.vec | numpy --to pickle
+
+cat file.vec | numpy --to bytes
+
+cat file.vec | numpy --to repr
+```
