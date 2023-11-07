@@ -1,8 +1,9 @@
 """
-    motor system
+    motor system / io
 
-    turns internal data types (tokens, bytes, tensors)
-    into external data types (pickle, json, repr, etc)
+    turns internal data types (text, vectors)
+    into external data types (bytes, images, audio)
 """
 
-from .tensor import *
+from .bytes import *
+from .pipes import *

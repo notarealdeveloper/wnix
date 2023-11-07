@@ -16,7 +16,7 @@ def main(argv):
         file = sys.stdin.buffer
 
     import wnix
-    text = wnix.img_to_text(file)
+    text = wnix.image_to_text(file)
     print(text)
 
 if __name__ == '__main__':

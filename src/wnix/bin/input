@@ -6,7 +6,7 @@ import sys
 import argparse
 import subprocess
 
-TYPES = ['pdf', 'img', 'url', 'html']
+TYPES = ['pdf', 'image', 'url', 'html']
 
 def infer_ext_from_path(path):
     ext = path.split('.')[-1]
@@ -23,7 +23,7 @@ def infer_ext_from_bytes(bytes):
 
 def ext_to_type(ext):
     if ext in {'jpg', 'png'}:
-        return 'img'
+        return 'image'
     return ext
 
 def die(msg=None):

@@ -1,14 +1,15 @@
 #!/usr/bin/env python3
 
 __all__ = [
-    'filelike_to_bytes',
+    'file_to_bytes',
 ]
 
-def filelike_to_bytes(arg):
-    import io
-    import os
-    import pathlib
-    import builtins
+import io
+import os
+import pathlib
+import builtins
+
+def file_to_bytes(arg):
     if isinstance(arg, io.IOBase):
         content = arg.read()
         if isinstance(content, str):

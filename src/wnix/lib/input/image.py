@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 __all__ = [
-    'img_to_text',
+    'image_to_text',
 ]
 
 from functools import lru_cache
@@ -16,26 +16,26 @@ def load_model():
     return model
 
 
-def img_to_text(file):
+def image_to_text(file):
 
     import io
-    import wnix
     import PIL.Image
+    import wnix
 
-    bytes = wnix.filelike_to_bytes(file)
-    cache = wnix.CacheDisk()
+    cache = wnix.CacheDefault('text')
+    bytes = wnix.file_to_bytes(file)
     text = cache.load(bytes)
     if text is not None:
         return text.decode()
 
-    file = io.BytesIO(bytes)
-    img = PIL.Image.open(file)
-    text = pil_img_to_text(img)
+    stream = io.BytesIO(bytes)
+    img = PIL.Image.open(stream)
+    text = PIL_image_to_text(img)
     cache.save(bytes, text.encode())
     return text
 
 
-def pil_img_to_text(file):
+def PIL_image_to_text(file):
 
     model = load_model()
 
@@ -52,4 +52,4 @@ def pil_img_to_text(file):
     else:
         raise TypeError(file)
 
-to_text = img_to_text
+to_text = image_to_text

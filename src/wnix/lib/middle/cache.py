@@ -13,17 +13,19 @@ from functools import lru_cache
 
 import wnix
 
-def default_root():
-    return os.path.join(os.getenv('HOME'), '.cache', 'think')
 
 class CacheDisk:
 
     """ Content addressable memory, inspired by git. """
 
-    def __init__(self, *, root=default_root()):
+    @staticmethod
+    def default_root():
+        return os.path.join(os.getenv('HOME'), '.cache', 'wnix')
+
+    def __init__(self, name = 'embed', *, root=default_root()):
         self.root = root
-        self.blob = os.path.join(self.root, 'blob')
-        self.tree = os.path.join(self.root, 'tree')
+        self.blob = os.path.join(self.root, name, 'blob')
+        self.tree = os.path.join(self.root, name, 'tree')
 
         os.makedirs(self.root, exist_ok=True)
         os.makedirs(self.blob, exist_ok=True)

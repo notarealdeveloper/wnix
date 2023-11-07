@@ -3,9 +3,9 @@ __all__ = [
 ]
 
 import io
-import pypdf
 
 def pdf_to_text(file):
+    import pypdf
     if isinstance(file, io.IOBase):
         # ensure file is seekable to support stdin.
         file = io.BytesIO(file.read())

@@ -1,8 +1,23 @@
+"""
+Embeddings
+* automatically cached by content
+* persisted between processes 
+* namespaced by model and args
+* support for tokenizer independent names
+"""
+
 __all__ = [
+    'think',
     'Space',
 ]
 
 import wnix
+import numpy as np
+
+def think(arg, space=None):
+    if space is None:
+        space = Space()
+    return space.think(arg)
 
 class Space:
 
@@ -10,7 +25,14 @@ class Space:
         self.embed = embed or wnix.embed.EmbedDefault()
         self.cache = cache or wnix.cache.CacheDefault()
 
-    def think(self, blob):
+    def think(self, arg):
+        if isinstance(arg, str):
+            return self.get(arg)
+        if isinstance(arg, (list, tuple, set)):
+            return np.stack([self.get(key) for key in arg])
+        raise TypeError(f"Not sure how to think about {arg.__class__.__name__}: {arg!r}")
+
+    def get(self, arg):
         embed = self.load(blob)
         if embed is not None:
             return embed
