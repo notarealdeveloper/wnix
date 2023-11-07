@@ -1,9 +1,10 @@
-"""
-Embeddings
-* automatically cached by content
-* persisted between processes 
-* namespaced by model and args
-* support for tokenizer independent names
+""" space
+    =====
+    compute embeddings that are
+    * automatically cached by content
+    * persisted between processes 
+    * namespaced by model and args
+    * supports model independent name assignment
 """
 
 __all__ = [
@@ -20,6 +21,8 @@ def think(arg, space=None):
     return space.think(arg)
 
 class Space:
+
+    """ An embedding space """
 
     def __init__(self, embed=None, cache=None):
         self.embed = embed or wnix.embed.EmbedDefault()
