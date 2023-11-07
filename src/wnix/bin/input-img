@@ -1,0 +1,23 @@
+#!/usr/bin/env python3
+
+__all__ = ['main']
+
+import sys
+import argparse
+
+def main(argv):
+    parser = argparse.ArgumentParser('input-image')
+    parser.add_argument('path', nargs='?')
+    args = parser.parse_args(argv)
+
+    if args.path is not None:
+        file = open(args.path, 'rb')
+    else:
+        file = sys.stdin.buffer
+
+    import wnix
+    text = wnix.img_to_text(file)
+    print(text)
+
+if __name__ == '__main__':
+    main(sys.argv[1:])
