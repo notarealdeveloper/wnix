@@ -5,10 +5,27 @@ authors = [
   { name="Jason Wilkes", email="notarealdeveloper@gmail.com" },
 ]
 description = "Unix coreutils for software 2.0"
+dependencies = [
+    "fleep",
+    "numpy",
+    "Pillow",
+    "pypdf",
+    "sentence_transformers",
+    "transformers",
+]
 
 [project.urls]
 "Homepage" = "https://github.com/notarealdeveloper/wnix"
 
-[build-system]
-requires = ["setuptools", "wheel"]
-build-backend = "setuptools.build_meta"
+[project.scripts]
+input       = "wnix.bin.input:main"
+input-pdf   = "wnix.bin.input.pdf:main"
+input-image = "wnix.bin.input.image:main"
+input-url   = "wnix.bin.input.url:main"
+input-html  = "wnix.bin.input.html:main"
+pdf         = "wnix.bin.input.pdf:main"
+image       = "wnix.bin.input.image:main"
+url         = "wnix.bin.input.url:main"
+html        = "wnix.bin.input.html:main"
+think       = "wnix.bin.middle.think:main"
+output      = "wnix.bin.output:main"
