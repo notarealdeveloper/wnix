@@ -32,7 +32,9 @@ def die(msg=None):
         print(f" * error: {msg}", file=sys.stderr)
     sys.exit(1)
 
-def main(argv):
+def main(argv=None):
+    if argv is None:
+        argv = sys.argv[1:]
     parser = argparse.ArgumentParser('input')
     parser.add_argument('type', nargs='?', choices=TYPES)
     args = parser.parse_args(argv)

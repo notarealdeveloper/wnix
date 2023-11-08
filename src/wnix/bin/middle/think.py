@@ -7,7 +7,9 @@ import sys
 import argparse
 import wnix
 
-def main(argv):
+def main(argv=None):
+    if argv is None:
+        argv = sys.argv[1:]
     parser = argparse.ArgumentParser('think')
     parser.add_argument('file', nargs='?')
     parser.add_argument('-l', '--lines', action='store_true')

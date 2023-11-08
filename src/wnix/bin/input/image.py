@@ -5,7 +5,9 @@ __all__ = ['main']
 import sys
 import argparse
 
-def main(argv):
+def main(argv=None):
+    if argv is None:
+        argv = sys.argv[1:]
     parser = argparse.ArgumentParser('input-image')
     parser.add_argument('path', nargs='?')
     args = parser.parse_args(argv)

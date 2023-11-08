@@ -6,7 +6,9 @@ import os
 import sys
 import argparse
 
-def main(argv):
+def main(argv=None):
+    if argv is None:
+        argv = sys.argv[1:]
     parser = argparse.ArgumentParser('output')
     parser.add_argument(
         'to',

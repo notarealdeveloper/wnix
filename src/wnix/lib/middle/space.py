@@ -32,10 +32,10 @@ class Space:
         if isinstance(arg, str):
             return self.get(arg)
         if isinstance(arg, (list, tuple, set)):
-            return np.stack([self.get(key) for key in arg])
+            return np.stack([self.get(blob) for blob in arg])
         raise TypeError(f"Not sure how to think about {arg.__class__.__name__}: {arg!r}")
 
-    def get(self, arg):
+    def get(self, blob):
         embed = self.load(blob)
         if embed is not None:
             return embed

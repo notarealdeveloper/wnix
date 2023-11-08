@@ -6,7 +6,9 @@ import sys
 import bs4
 import argparse
 
-def main(argv):
+def main(argv=None):
+    if argv is None:
+        argv = sys.argv[1:]
     parser = argparse.ArgumentParser('input-html')
     parser.add_argument('path', nargs='?')
     args = parser.parse_args(argv)
@@ -21,4 +23,4 @@ def main(argv):
     print(soup.text)
 
 if __name__ == '__main__':
-    main(sys.argv[1:])
+    main()
