@@ -12,6 +12,7 @@ dependencies = [
     "pypdf",
     "sentence_transformers",
     "transformers",
+    "ensure @ git+https://github.com/notarealdeveloper/ensure"
 ]
 
 [project.urls]
