@@ -1,7 +1,7 @@
-all:
+build:
 	python -m build --sdist
 
-install: all
+install: build
 	pip install dist/*.tar.gz
 
 uninstall:

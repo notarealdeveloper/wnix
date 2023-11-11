@@ -6,7 +6,7 @@ import io
 
 def pdf_to_text(file):
     import pypdf
-    if isinstance(file, io.IOBase):
+    if hasattr(file, 'read'):
         # ensure file is seekable to support stdin.
         file = io.BytesIO(file.read())
     reader = pypdf.PdfReader(file)
