@@ -21,9 +21,9 @@ def image_to_text(file):
     import io
     import assure
     import PIL.Image
-    import wnix
+    import kernel
 
-    cache = wnix.CacheDefault('text')
+    cache = kernel.CacheDefault('text')
     bytes = assure.bytes(file)
     text = cache.load(bytes)
     if text is not None:

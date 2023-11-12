@@ -3,24 +3,23 @@
 __all__ = ['main']
 
 import sys
-import bs4
 import argparse
 
 def main(argv=None):
     if argv is None:
         argv = sys.argv[1:]
-    parser = argparse.ArgumentParser('input-html')
+    parser = argparse.ArgumentParser('input-image')
     parser.add_argument('path', nargs='?')
     args = parser.parse_args(argv)
 
     if args.path is not None:
-        html = open(args.path).read()
+        file = open(args.path, 'rb')
     else:
-        html = sys.stdin.buffer.read().decode()
+        file = sys.stdin.buffer
 
-    soup = bs4.BeautifulSoup(html, 'html.parser')
-
-    print(soup.text)
+    import kernel
+    text = kernel.image_to_text(file)
+    print(text)
 
 if __name__ == '__main__':
-    main()
+    main(sys.argv[1:])

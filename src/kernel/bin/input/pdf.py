@@ -8,7 +8,7 @@ import argparse
 def main(argv=None):
     if argv is None:
         argv = sys.argv[1:]
-    parser = argparse.ArgumentParser('input-image')
+    parser = argparse.ArgumentParser('input-pdf')
     parser.add_argument('path', nargs='?')
     args = parser.parse_args(argv)
 
@@ -17,8 +17,8 @@ def main(argv=None):
     else:
         file = sys.stdin.buffer
 
-    import wnix
-    text = wnix.image_to_text(file)
+    import kernel
+    text = kernel.pdf_to_text(file)
     print(text)
 
 if __name__ == '__main__':

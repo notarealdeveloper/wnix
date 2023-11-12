@@ -8,18 +8,18 @@ import argparse
 def main(argv=None):
     if argv is None:
         argv = sys.argv[1:]
-    parser = argparse.ArgumentParser('input-pdf')
+    parser = argparse.ArgumentParser('input-html')
     parser.add_argument('path', nargs='?')
     args = parser.parse_args(argv)
 
     if args.path is not None:
-        file = open(args.path, 'rb')
+        html = open(args.path).read()
     else:
-        file = sys.stdin.buffer
+        html = sys.stdin.buffer.read().decode()
 
-    import wnix
-    text = wnix.pdf_to_text(file)
+    import kernel
+    text = kernel.html_to_text(html)
     print(text)
 
 if __name__ == '__main__':
-    main(sys.argv[1:])
+    main()

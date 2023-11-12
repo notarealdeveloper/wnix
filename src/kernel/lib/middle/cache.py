@@ -11,7 +11,7 @@ import os
 import hashlib
 from functools import lru_cache
 
-import wnix
+import kernel
 
 
 class CacheDisk:
@@ -20,21 +20,25 @@ class CacheDisk:
 
     @staticmethod
     def default_root():
-        return os.path.join(os.getenv('HOME'), '.cache', 'wnix')
+        return os.path.join(os.getenv('HOME'), '.cache', 'kernel')
 
-    def __init__(self, name = 'embed', *, root=default_root()):
+    def __init__(self, path='embed', *, root=default_root()):
         self.root = root
-        self.blob = os.path.join(self.root, name, 'blob')
-        self.tree = os.path.join(self.root, name, 'tree')
+        self.path = path
 
-        os.makedirs(self.root, exist_ok=True)
-        os.makedirs(self.blob, exist_ok=True)
-        os.makedirs(self.tree, exist_ok=True)
+    @property
+    def blob(self):
+        return os.path.join(self.root, self.path, 'blob')
+
+    @property
+    def tree(self):
+        return os.path.join(self.root, self.path, 'tree')
 
     def have(self, blob):
         return os.path.exists(self.path(blob))
 
     def path(self, blob):
+        os.makedirs(self.blob, exist_ok=True)
         return os.path.join(self.blob, self.hash(blob))
 
     def save(self, blob, bytes):

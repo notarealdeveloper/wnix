@@ -6,7 +6,7 @@ __all__ = [
 import importlib.resources
 
 def cat(name):
-    return importlib.resources.read_text('wnix.etc', name)
+    return importlib.resources.read_text('kernel.etc', name)
 
 def get(name):
     return cat(name).strip().splitlines()

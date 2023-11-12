@@ -1,4 +1,4 @@
-PKG = wnix
+PKG = kernel
 
 build:
 	python -m build

@@ -12,7 +12,7 @@ __all__ = [
     'Space',
 ]
 
-import wnix
+import kernel
 import numpy as np
 
 def think(arg, space=None):
@@ -25,8 +25,9 @@ class Space:
     """ An embedding space """
 
     def __init__(self, embed=None, cache=None):
-        self.embed = embed or wnix.embed.EmbedDefault()
-        self.cache = cache or wnix.cache.CacheDefault()
+        self.embed = embed or kernel.embed.EmbedDefault()
+        self.cache = cache or kernel.cache.CacheDefault()
+        self.cache.path = self.embed.path
 
     def think(self, arg):
         if isinstance(arg, str):
@@ -44,11 +45,11 @@ class Space:
         return embed
 
     def save(self, blob, embed):
-        bytes = wnix.tensor_to_bytes(embed)
+        bytes = kernel.tensor_to_bytes(embed)
         self.cache.save(blob, bytes)
 
     def load(self, blob):
         bytes = self.cache.load(blob)
         if bytes is not None:
-            return wnix.bytes_to_tensor(bytes)
+            return kernel.bytes_to_tensor(bytes)
         return None

@@ -24,9 +24,14 @@ class EmbedFlag:
         model = SentenceTransformer(name)
         return model
 
+    @property
+    def path(self):
+        return f'flag/{self.size}'
+
     def __init__(self, size='large'):
         if size not in self.SIZES:
             raise ValueError(f"size must be one of: {self.SIZES}")
+        self.size = size
         self.name = f"BAAI/bge-{size}-en-v1.5"
 
     @property

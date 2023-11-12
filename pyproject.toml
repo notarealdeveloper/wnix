@@ -1,10 +1,10 @@
 [project]
-name = "wnix"
+name = "kernel"
 version = "0.0.1"
 authors = [
   { name="Jason Wilkes", email="notarealdeveloper@gmail.com" },
 ]
-description = "Unix for software 2.0"
+description = "Unix kernel for software 2.0"
 dependencies = [
     "fleep",
     "numpy",
@@ -16,7 +16,7 @@ dependencies = [
 ]
 
 [project.urls]
-"Homepage" = "https://github.com/notarealdeveloper/wnix"
+"Homepage" = "https://github.com/notarealdeveloper/kernel"
 
 [project.scripts]
 input       = "wnix.bin.input:main"
@@ -24,9 +24,5 @@ input-pdf   = "wnix.bin.input.pdf:main"
 input-image = "wnix.bin.input.image:main"
 input-url   = "wnix.bin.input.url:main"
 input-html  = "wnix.bin.input.html:main"
-pdf         = "wnix.bin.input.pdf:main"
-image       = "wnix.bin.input.image:main"
-url         = "wnix.bin.input.url:main"
-html        = "wnix.bin.input.html:main"
 think       = "wnix.bin.middle.think:main"
 output      = "wnix.bin.output:main"

@@ -1,3 +1,3 @@
 # wnix
 
-Unix for software 2.0
+Unix kernel for software 2.0

@@ -5,7 +5,7 @@ __all__ = ['main']
 import os
 import sys
 import argparse
-import wnix
+import kernel
 
 
 def main(argv=None):
@@ -26,7 +26,7 @@ def main(argv=None):
     else:
         texts = [input]
 
-    space = wnix.Space()
+    space = kernel.Space()
 
     outputs = []
     for text in texts:
@@ -39,7 +39,7 @@ def main(argv=None):
     if os.isatty(sys.stdout.fileno()):
         print(tensor)
     else:
-        sys.stdout.buffer.write(wnix.tensor_to_bytes(output))
+        sys.stdout.buffer.write(kernel.tensor_to_bytes(output))
 
 if __name__ == '__main__':
     main(sys.argv[1:])

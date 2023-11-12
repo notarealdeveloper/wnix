@@ -6,4 +6,6 @@
 """
 
 from .pdf import *
+from .url import *
+from .html import *
 from .image import *
