@@ -19,10 +19,10 @@ dependencies = [
 "Homepage" = "https://github.com/notarealdeveloper/kernel"
 
 [project.scripts]
-input       = "wnix.bin.input:main"
-input-pdf   = "wnix.bin.input.pdf:main"
-input-image = "wnix.bin.input.image:main"
-input-url   = "wnix.bin.input.url:main"
-input-html  = "wnix.bin.input.html:main"
-think       = "wnix.bin.middle.think:main"
-output      = "wnix.bin.output:main"
+input       = "kernel.bin.input:main"
+input-pdf   = "kernel.bin.input.pdf:main"
+input-image = "kernel.bin.input.image:main"
+input-url   = "kernel.bin.input.url:main"
+input-html  = "kernel.bin.input.html:main"
+think       = "kernel.bin.middle.think:main"
+output      = "kernel.bin.output:main"
