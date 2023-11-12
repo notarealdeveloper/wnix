@@ -1,11 +1,14 @@
 build:
-	python -m build --sdist
+	python -m build
 
 install: build
 	pip install dist/*.tar.gz
 
+develop:
+	pip install -e .
+
 uninstall:
-	pip uninstall wnix
+	pip uninstall Bin
 
 clean:
 	rm -rv dist/ src/*.egg-info
