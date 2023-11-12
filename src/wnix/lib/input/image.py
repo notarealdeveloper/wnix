@@ -19,11 +19,12 @@ def load_model():
 def image_to_text(file):
 
     import io
+    import assure
     import PIL.Image
     import wnix
 
     cache = wnix.CacheDefault('text')
-    bytes = wnix.file_to_bytes(file)
+    bytes = assure.bytes(file)
     text = cache.load(bytes)
     if text is not None:
         return text.decode()
