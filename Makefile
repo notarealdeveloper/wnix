@@ -1,3 +1,5 @@
+PKG = wnix
+
 build:
 	python -m build
 
@@ -7,8 +9,24 @@ install: build
 develop:
 	pip install -e .
 
+check:
+	pytest tests
+
 uninstall:
-	pip uninstall Bin
+	pip uninstall $(PKG)
 
 clean:
-	rm -rv dist/ src/*.egg-info
+	rm -rv dist/ build/ src/*.egg-info
+
+push-test:
+	python -m twine upload --repository testpypi dist/*
+
+pull-test:
+	pip install -i https://test.pypi.org/simple/ $(PKG)
+
+push-prod:
+	python -m twine upload dist/*
+
+pull-prod:
+	pip install $(PKG)
+

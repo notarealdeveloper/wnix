@@ -1,3 +1,3 @@
 # wnix
 
-Unix coreutils for software 2.0
+Unix for software 2.0

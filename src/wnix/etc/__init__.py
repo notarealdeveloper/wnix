@@ -1,13 +1,13 @@
 __all__ = [
-    'get_text',
-    'get_type',
+    'cat',
+    'get',
 ]
 
 import importlib.resources
 
-def get_text(name):
+def cat(name):
     return importlib.resources.read_text('wnix.etc', name)
 
-def get_type(name):
-    return get_text(name).strip().splitlines()
+def get(name):
+    return cat(name).strip().splitlines()
 
