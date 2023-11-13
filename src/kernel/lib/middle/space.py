@@ -9,6 +9,7 @@
 
 __all__ = [
     'think',
+    'shape',
     'Space',
 ]
 
@@ -19,6 +20,11 @@ def think(arg, space=None):
     if space is None:
         space = Space()
     return space.think(arg)
+
+def shape(space=None):
+    if space is None:
+        space = Space()
+    return space.embed.shape()
 
 class Space:
 

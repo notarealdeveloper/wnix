@@ -15,7 +15,7 @@ class EmbedFlag:
 
     from functools import lru_cache
 
-    SIZES = {'small', 'base', 'large'}
+    SIZES = {'small': 384, 'base': 768, 'large': 1024}
 
     @classmethod
     @lru_cache(maxsize=1)
@@ -30,6 +30,9 @@ class EmbedFlag:
         self.size = size
         self.normalized = normalized
         self.model_name = f"BAAI/bge-{size}-en-v1.5"
+
+    def shape(self):
+        return self.SIZES[self.size]
 
     def namespace(self):
         normalized = 'normalized' if self.normalized else 'unnormalized'
