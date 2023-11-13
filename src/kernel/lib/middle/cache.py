@@ -4,35 +4,43 @@
 
 __all__ = [
     'CacheDefault',
-    'CacheDisk',
+    'CacheSha1',
 ]
 
 import os
 import hashlib
 from functools import lru_cache
 
+import assure
 import kernel
 
 
-class CacheDisk:
+class CacheSha1:
 
     """ Content addressable memory, inspired by git. """
 
     @staticmethod
     def default_root():
-        return os.path.join(os.getenv('HOME'), '.cache', 'kernel')
+        return os.path.join(os.getenv('HOME'), '.cache', 'wnix')
 
-    def __init__(self, path='embed', *, root=default_root()):
+    def __init__(self, name=None, *, root=default_root()):
         self.root = root
-        self.path = path
+        self.name = name
+
+    def namespace(self, name=None):
+        if name is None:
+            return self.name
+        else:
+            self.name = name
+            return self
 
     @property
     def blob(self):
-        return os.path.join(self.root, self.path, 'blob')
+        return os.path.join(self.root, self.name, 'blob')
 
     @property
     def tree(self):
-        return os.path.join(self.root, self.path, 'tree')
+        return os.path.join(self.root, self.name, 'tree')
 
     def have(self, blob):
         return os.path.exists(self.path(blob))
@@ -44,20 +52,15 @@ class CacheDisk:
     def save(self, blob, bytes):
         path = self.path(blob)
         with open(path, 'wb') as fp:
-            fp.write(bytes)
+            fp.write(assure.bytes(bytes))
 
     def load(self, blob) -> bytes:
-        if self.have(blob):
-            return self(blob)
-        return None
+        path = self.path(blob)
+        with open(path, 'rb') as fp:
+            return assure.bytes(fp.read())
 
     def hash(self, blob):
         return self.hash_bytes(self.encode(blob))
-
-    def __call__(self, blob):
-        path = self.path(blob)
-        with open(path, 'rb') as fp:
-            return fp.read()
 
     @staticmethod
     @lru_cache
@@ -74,4 +77,4 @@ class CacheDisk:
             raise TypeError(f"blob has type {blob.__class__.__name__!r}")
         return hashlib.sha1(blob).hexdigest()
 
-CacheDefault = CacheDisk
+CacheDefault = CacheSha1

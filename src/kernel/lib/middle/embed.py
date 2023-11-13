@@ -24,15 +24,16 @@ class EmbedFlag:
         model = SentenceTransformer(name)
         return model
 
-    @property
-    def path(self):
-        return f'flag/{self.size}'
-
-    def __init__(self, size='large'):
+    def __init__(self, size='large', normalized=True):
         if size not in self.SIZES:
             raise ValueError(f"size must be one of: {self.SIZES}")
         self.size = size
-        self.name = f"BAAI/bge-{size}-en-v1.5"
+        self.normalized = normalized
+        self.model_name = f"BAAI/bge-{size}-en-v1.5"
+
+    def namespace(self):
+        normalized = 'normalized' if self.normalized else 'unnormalized'
+        return f"embed/flag/{self.size}/{normalized}"
 
     @property
     def model(self):
@@ -40,12 +41,12 @@ class EmbedFlag:
         try:
             return self._model
         except:
-            self._model = self.load_model(self.name)
+            self._model = self.load_model(self.model_name)
             return self._model
 
-    def __call__(self, text, normalize=False):
+    def __call__(self, text):
         # the large flag model has a crazy non-constant embedding size
         # depending on whether or not we feed it a token length string
-        return self.model.encode(text, normalize_embeddings=normalize)
+        return self.model.encode(text, normalize_embeddings=self.normalized)
 
 EmbedDefault = EmbedFlag

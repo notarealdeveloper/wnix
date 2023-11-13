@@ -9,16 +9,16 @@ def main(argv=None):
     if argv is None:
         argv = sys.argv[1:]
     parser = argparse.ArgumentParser('input-image')
-    parser.add_argument('path', nargs='?')
+    parser.add_argument('query', nargs='?')
     args = parser.parse_args(argv)
 
-    if args.path is not None:
-        file = open(args.path, 'rb')
-    else:
-        file = sys.stdin.buffer
-
     import kernel
-    text = kernel.image_to_text(file)
+    file = sys.stdin.buffer
+
+    if args.query is None:
+        text = kernel.image_to_text(file)
+    else:
+        text = kernel.image_and_text_to_text(file, args.query)
     print(text)
 
 if __name__ == '__main__':

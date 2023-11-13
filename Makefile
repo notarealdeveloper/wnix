@@ -10,7 +10,10 @@ develop:
 	pip install -e .
 
 check:
-	pytest tests
+	pytest -v tests
+
+check-shell:
+	tests/test_kernel.sh
 
 uninstall:
 	pip uninstall $(PKG)

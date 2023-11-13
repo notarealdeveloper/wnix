@@ -7,9 +7,8 @@ import assure
 
 def pdf_to_text(file):
     import pypdf
-    if hasattr(file, 'seekable'):
-        # assure file is seekable to support stdin.
-        file = assure.seekable(file)
+    # assure file is seekable to support stdin.
+    file = assure.seekable(file)
     reader = pypdf.PdfReader(file)
     pages = [page.extract_text() for page in reader.pages]
     return '\n\n'.join(pages)

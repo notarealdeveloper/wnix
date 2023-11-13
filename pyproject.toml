@@ -7,12 +7,14 @@ authors = [
 description = "Unix kernel for software 2.0"
 dependencies = [
     "fleep",
+    "validators",
     "numpy",
     "Pillow",
     "pypdf",
     "sentence_transformers",
     "transformers",
     "assure",
+    "rootfs",
 ]
 
 [project.urls]
@@ -26,3 +28,4 @@ input-url   = "kernel.bin.input.url:main"
 input-html  = "kernel.bin.input.html:main"
 think       = "kernel.bin.middle.think:main"
 output      = "kernel.bin.output:main"
+what        = "kernel.bin.output.what:main"

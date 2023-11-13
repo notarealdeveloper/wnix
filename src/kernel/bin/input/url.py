@@ -4,7 +4,6 @@ __all__ = ['main']
 
 import sys
 import argparse
-import requests
 
 def main(argv=None):
     if argv is None:
@@ -18,7 +17,8 @@ def main(argv=None):
     else:
         url = sys.stdin.buffer.read().decode().strip()
 
-    text = requests.get(url).content.decode()
+    import kernel
+    text = kernel.url_to_html(url)
     print(text)
 
 if __name__ == '__main__':

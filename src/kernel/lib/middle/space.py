@@ -27,7 +27,7 @@ class Space:
     def __init__(self, embed=None, cache=None):
         self.embed = embed or kernel.embed.EmbedDefault()
         self.cache = cache or kernel.cache.CacheDefault()
-        self.cache.path = self.embed.path
+        self.cache.namespace(self.embed.namespace())
 
     def think(self, arg):
         if isinstance(arg, str):
@@ -37,12 +37,13 @@ class Space:
         raise TypeError(f"Not sure how to think about {arg.__class__.__name__}: {arg!r}")
 
     def get(self, blob):
-        embed = self.load(blob)
-        if embed is not None:
+        try:
+            embed = self.load(blob)
             return embed
-        embed = self.embed(blob)
-        self.save(blob, embed)
-        return embed
+        except:
+            embed = self.embed(blob)
+            self.save(blob, embed)
+            return embed
 
     def save(self, blob, embed):
         bytes = kernel.tensor_to_bytes(embed)
@@ -50,6 +51,4 @@ class Space:
 
     def load(self, blob):
         bytes = self.cache.load(blob)
-        if bytes is not None:
-            return kernel.bytes_to_tensor(bytes)
-        return None
+        return kernel.bytes_to_tensor(bytes)
