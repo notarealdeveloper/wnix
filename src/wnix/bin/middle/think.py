@@ -14,6 +14,7 @@ def main(argv=None):
     parser = argparse.ArgumentParser('think')
     parser.add_argument('file', nargs='?')
     parser.add_argument('-l', '--lines', action='store_true')
+    parser.add_argument('-c', '--cat', action='store_true')
     args = parser.parse_args(argv)
 
     if not args.file:
@@ -25,6 +26,9 @@ def main(argv=None):
         texts = input.splitlines()
     else:
         texts = [input]
+
+    if args.cat:
+        texts = [open(text, 'r').read() for text in texts]
 
     space = wnix.Space()
 

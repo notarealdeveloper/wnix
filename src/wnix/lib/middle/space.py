@@ -36,7 +36,7 @@ class Space:
         self.cache.namespace(self.embed.namespace())
 
     def think(self, arg):
-        if isinstance(arg, str):
+        if isinstance(arg, (str, bytes)):
             return self.get(arg)
         if isinstance(arg, (list, tuple, set)):
             return np.stack([self.get(blob) for blob in arg])
