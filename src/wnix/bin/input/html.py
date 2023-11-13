@@ -17,8 +17,8 @@ def main(argv=None):
     else:
         html = sys.stdin.buffer.read().decode()
 
-    import kernel
-    text = kernel.html_to_text(html)
+    import wnix
+    text = wnix.html_to_text(html)
     print(text)
 
 if __name__ == '__main__':

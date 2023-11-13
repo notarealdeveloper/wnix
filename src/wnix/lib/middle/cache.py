@@ -12,7 +12,7 @@ import hashlib
 from functools import lru_cache
 
 import assure
-import kernel
+import wnix
 
 
 class CacheSha1:

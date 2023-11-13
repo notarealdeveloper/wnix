@@ -18,22 +18,22 @@ def main(argv=None):
     )
 
     # a tensor comes from stdin, in exactly one format
-    import kernel
+    import wnix
     args = parser.parse_args(argv)
-    tensor = kernel.stdin_to_tensor()
+    tensor = wnix.stdin_to_tensor()
 
     # a tensor goes to stdout, in any format we want
     if   args.to == 'string':
-        output = kernel.tensor_to_string(tensor)
+        output = wnix.tensor_to_string(tensor)
         print(output)
     elif args.to == 'bytes':
-        output = kernel.tensor_to_bytes(tensor)
+        output = wnix.tensor_to_bytes(tensor)
         sys.stdout.buffer.write(output)
     elif args.to == 'json':
-        output = kernel.tensor_to_json(tensor)
+        output = wnix.tensor_to_json(tensor)
         print(output)
     elif args.to == 'pickle':
-        output = kernel.tensor_to_pickle(tensor)
+        output = wnix.tensor_to_pickle(tensor)
         sys.stdout.buffer.write(output)
     else:
         raise TypeError

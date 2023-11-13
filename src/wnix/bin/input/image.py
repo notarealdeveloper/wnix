@@ -12,13 +12,13 @@ def main(argv=None):
     parser.add_argument('query', nargs='?')
     args = parser.parse_args(argv)
 
-    import kernel
+    import wnix
     file = sys.stdin.buffer
 
     if args.query is None:
-        text = kernel.image_to_text(file)
+        text = wnix.image_to_text(file)
     else:
-        text = kernel.image_and_text_to_text(file, args.query)
+        text = wnix.image_and_text_to_text(file, args.query)
     print(text)
 
 if __name__ == '__main__':

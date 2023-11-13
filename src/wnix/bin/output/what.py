@@ -6,7 +6,7 @@ import os
 import sys
 import argparse
 
-import kernel
+import wnix
 
 def main(argv=None):
     if argv is None:
@@ -20,8 +20,8 @@ def main(argv=None):
     else:
         keys = sys.argv[1:]
 
-    q = kernel.stdin_to_tensor()
-    ranks = kernel.what(q, keys)
+    q = wnix.stdin_to_tensor()
+    ranks = wnix.what(q, keys)
     output = '\n'.join(ranks)
     print(output)
 

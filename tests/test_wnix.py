@@ -1,17 +1,17 @@
 #!/usr/bin/env python3
 
-import kernel
+import wnix
 import rootfs
 
 # recompute these every time without any explicit caching, as a speed check
 
-def test_kernel_image_and_text_to_text_correctness():
+def test_wnix_image_and_text_to_text_correctness():
     file = rootfs.file('/usr/share/cats.jpg')
-    assert kernel.image_and_text_to_text(file, "What animal is this?") == 'cat'
-    assert kernel.image_and_text_to_text(file, "What animals are these?") == 'cats'
-    assert kernel.image_and_text_to_text(file, "How many are there") == '2'
-    assert kernel.image_and_text_to_text(file, "How many cats are there") == '2'
-    assert kernel.image_and_text_to_text(file, "How many dogs are there") == '0'
+    assert wnix.image_and_text_to_text(file, "What animal is this?") == 'cat'
+    assert wnix.image_and_text_to_text(file, "What animals are these?") == 'cats'
+    assert wnix.image_and_text_to_text(file, "How many are there") == '2'
+    assert wnix.image_and_text_to_text(file, "How many cats are there") == '2'
+    assert wnix.image_and_text_to_text(file, "How many dogs are there") == '0'
 
 IMAGES = [
     '/usr/share/cats.jpg',
@@ -39,7 +39,7 @@ class File:
         return f"{cls}({name})"
 
     def embed(self):
-        return kernel.think(self.text())
+        return wnix.think(self.text())
 
     def name(self):
         return self.file.name
@@ -49,22 +49,22 @@ class File:
 
 class Image(File):
     def text(self):
-        text1 = kernel.image_to_text(self.bytes)
-        text2 = kernel.image_to_text(self.file)
+        text1 = wnix.image_to_text(self.bytes)
+        text2 = wnix.image_to_text(self.file)
         assert text1 == text2
         return text1
 
 class ImageAndText(Image):
     def text(self, query):
-        text1 = kernel.image_and_text_to_text(self.bytes, query)
-        text2 = kernel.image_and_text_to_text(self.file, query)
+        text1 = wnix.image_and_text_to_text(self.bytes, query)
+        text2 = wnix.image_and_text_to_text(self.file, query)
         assert text1 == text2
         return text1
 
 class Pdf(File):
     def text(self):
-        text1 = kernel.pdf_to_text(self.bytes)
-        text2 = kernel.pdf_to_text(self.file)
+        text1 = wnix.pdf_to_text(self.bytes)
+        text2 = wnix.pdf_to_text(self.file)
         assert text1 == text2
         return text1
 
@@ -86,7 +86,7 @@ def get_embeds():
     files = get_files()
     return [file.embed() for file in files]
 
-def test_kernel_image_to_text_correctness():
+def test_wnix_image_to_text_correctness():
     images = {p.stem(): p for p in get_images()}
     assert 'cat'    in images['cats'].text()
     assert 'blue'   in images['bluecow'].text()
@@ -95,12 +95,12 @@ def test_kernel_image_to_text_correctness():
     assert 'cow'    in images['redcow'].text()
     assert 'soccer' in images['soccer'].text()
 
-def test_kernel_pdf_to_text_correctness():
+def test_wnix_pdf_to_text_correctness():
     pdfs = {p.stem(): p for p in get_pdfs()}
     assert 'chicken' in pdfs['chicken'].text()
     assert 'CoW'     in pdfs['cow'].text()
 
-def test_kernel_thought_correctness():
+def test_wnix_thought_correctness():
     files = {p.name(): p for p in get_files()}
     import itertools
     import collections

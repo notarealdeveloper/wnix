@@ -8,17 +8,17 @@ import argparse
 def main(argv=None):
     if argv is None:
         argv = sys.argv[1:]
-    parser = argparse.ArgumentParser('input-url')
-    parser.add_argument('url', nargs='?')
+    parser = argparse.ArgumentParser('input-pdf')
+    parser.add_argument('path', nargs='?')
     args = parser.parse_args(argv)
 
-    if args.url is not None:
-        url = args.url
+    if args.path is not None:
+        file = open(args.path, 'rb')
     else:
-        url = sys.stdin.buffer.read().decode().strip()
+        file = sys.stdin.buffer
 
-    import kernel
-    text = kernel.url_to_html(url)
+    import wnix
+    text = wnix.pdf_to_text(file)
     print(text)
 
 if __name__ == '__main__':

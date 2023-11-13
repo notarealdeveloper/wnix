@@ -12,11 +12,11 @@ from functools import lru_cache
 
 def image_to_text(image):
 
-    import kernel
+    import wnix
 
     bytes = assure.bytes(image)
 
-    cache = kernel.CacheDefault('image_to_text')
+    cache = wnix.CacheDefault('image_to_text')
     if cache.have(bytes):
         return cache.load(bytes).decode()
 
@@ -59,13 +59,13 @@ def load_model_image_to_text():
 
 def image_and_text_to_text(image, text):
 
-    import kernel
+    import wnix
 
     image_bytes = assure.bytes(image)
     text_bytes = text.encode()
     bytes = image_bytes + text_bytes
 
-    cache = kernel.CacheDefault('image_and_text_to_text')
+    cache = wnix.CacheDefault('image_and_text_to_text')
     if cache.have(bytes):
         return cache.load(bytes).decode()
 

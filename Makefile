@@ -1,6 +1,7 @@
-PKG = kernel
+PKG = wnix
 
 build:
+	pip install build
 	python -m build
 
 install: build
@@ -13,13 +14,13 @@ check:
 	pytest -v tests
 
 check-shell:
-	tests/test_kernel.sh
+	tests/test_wnix.sh
 
 uninstall:
 	pip uninstall $(PKG)
 
 clean:
-	rm -rv dist/ build/ src/*.egg-info
+	rm -rvf dist/ build/ src/*.egg-info
 
 push-test:
 	python -m twine upload --repository testpypi dist/*

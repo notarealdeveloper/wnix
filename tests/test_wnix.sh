@@ -38,45 +38,4 @@ url='https://en.wikipedia.org/wiki/Basketball'
 echo "$url" | url | html | think | what etc/sports | head -1
 curl -s "$url" | html | think | what etc/sports | head -1
 
-wiki='https://en.wikipedia.org/wiki/'
-curl -s "$wiki/Zipf%27s_law" | html | think | what <(cat etc/top1k) | head -n 5
-
-(
-    cat usr/share/cats.jpg |
-    input | 
-    think | 
-    what <(cat etc/top1k) |
-    head -n 5
-)
-(
-    cat usr/share/cats.jpg |
-    input | 
-    think | 
-    what <(cat etc/top1k) |
-    head -n 100 |
-    think |
-    what <(cat etc/top1k) |
-    head -n 5
-)
-(
-    cat usr/share/cats.jpg |
-    input | 
-    think | 
-    what <(cat etc/top1k) |
-    head -n 50
-)  | think | what etc/animals
-
-(
-    cat usr/share/cats.jpg |
-    input | 
-    think | 
-    what <(cat etc/top1k) |
-    head -n 50
-)  | think | what etc/animals
-
-(
-    curl -s 'https://www.bedtimeshortstories.com/splat-the-cat' |
-    input html | think | what <(cat etc/top1k) | head -n 50
-)
-
 popd >/dev/null
