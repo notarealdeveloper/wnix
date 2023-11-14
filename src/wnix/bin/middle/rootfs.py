@@ -10,8 +10,8 @@ def main(argv=None):
         argv = sys.argv[1:]
     parser = argparse.ArgumentParser('rootfs')
     parser.add_argument('--show', action='store_true',  help="Show root directory")
-    parser.add_argument('--list', type=str, default='/', help="Run ls on a directory")
-    parser.add_argument('--find', type=str, default='/', help="Run find on a directory")
+    parser.add_argument('--list', type=str, default=None, help="Run ls on a directory")
+    parser.add_argument('--find', type=str, default=None, help="Run find on a directory")
     args = parser.parse_args(argv)
 
     if [args.show, args.list, args.find].count(True) > 1:
@@ -23,11 +23,14 @@ def main(argv=None):
     import wnix
 
     if args.show:
-        print(wnix.root())
+        results = [wnix.root()]
     if args.list:
-        print(wnix.list(args.list))
+        results = wnix.list(args.list)
     if args.find:
-        print(wnix.find(args.find))
+        results = wnix.find(args.find)
+
+    for result in results:
+        print(str(result))
 
 if __name__ == '__main__':
     main(sys.argv[1:])
