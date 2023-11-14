@@ -1,10 +1,10 @@
 [project]
 name = "wnix"
-version = "0.0.2"
+version = "0.0.3"
 authors = [
   { name="Jason Wilkes", email="notarealdeveloper@gmail.com" },
 ]
-description = "Unix for software 2.0"
+description = "Unix coreutils for software 2.0"
 dependencies = [
     "requests",
     "bs4",

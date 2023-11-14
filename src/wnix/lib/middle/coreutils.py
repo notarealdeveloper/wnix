@@ -38,15 +38,21 @@ def Sims(query, keys):
 
 
 def _Sims(Q, K, query, keys):
-    std = lambda X: X.std(0, keepdims=True)
-    avg = lambda X: X.mean(0, keepdims=True)
-    #Q = (Q  - avg(Q)) / np.sqrt(std(Q))
-    #K = (K  - avg(K)) / np.sqrt(std(K))
-    Q = (Q  - avg(Q)) / std(Q)
-    K = (K  - avg(K)) / std(K)
+    Q, K = center(Q, K)
     W = softmax(Q @ K.T)
     return W
 
+def center(Q, K):
+    # TODO: what should this be?
+    std = lambda X: X.std(0, keepdims=True)
+    avg = lambda X: X.mean(0, keepdims=True)
+    # Q = (Q  - avg(Q)) / np.sqrt(std(Q))
+    # K = (K  - avg(K)) / np.sqrt(std(K))
+    # Q = (Q  - avg(Q)) / std(Q)
+    # K = (K  - avg(K)) / std(K)
+    Q = (Q  - avg(K)) / np.sqrt(std(K))
+    K = (K  - avg(K)) / np.sqrt(std(K))
+    return Q, K
 
 ############
 ### What ###
