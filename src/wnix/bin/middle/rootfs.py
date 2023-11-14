@@ -20,7 +20,6 @@ def main(argv=None):
         sys.exit(1)
     if [args.show, args.list, args.find].count(True) == 0:
         args.show = True
-        sys.exit(1)
 
     import wnix
 
