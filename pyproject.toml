@@ -17,8 +17,11 @@ dependencies = [
     "transformers",
     "pytest",
     "assure",
-    "rootfs",
 ]
+
+# For including the non-python files in the installed repo
+[tool.setuptools.package-data]
+rootfs = ["**/*"]
 
 [project.urls]
 "Homepage" = "https://github.com/notarealdeveloper/wnix"
@@ -35,6 +38,7 @@ url         = "wnix.bin.input.url:main"
 html        = "wnix.bin.input.html:main"
 think       = "wnix.bin.middle.think:main"
 product     = "wnix.bin.middle.product:main"
+rootfs      = "wnix.bin.middle.rootfs:main"
 Grep        = "wnix.bin.middle.Grep:main"
 Sed         = "wnix.bin.middle.Sed:main"
 output      = "wnix.bin.output:main"
