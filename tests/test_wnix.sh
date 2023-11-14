@@ -1,6 +1,6 @@
 #!/bin/bash
 
-pushd $(rootfs --root) >/dev/null
+pushd $(rootfs) >/dev/null
 
 cat usr/share/cats.jpg | input
 

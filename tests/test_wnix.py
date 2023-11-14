@@ -1,12 +1,11 @@
 #!/usr/bin/env python3
 
 import wnix
-import rootfs
 
 # recompute these every time without any explicit caching, as a speed check
 
 def test_wnix_image_and_text_to_text_correctness():
-    file = rootfs.file('/usr/share/cats.jpg')
+    file = wnix.file('/usr/share/cats.jpg')
     assert wnix.image_and_text_to_text(file, "What animal is this?") == 'cat'
     assert wnix.image_and_text_to_text(file, "What animals are these?") == 'cats'
     assert wnix.image_and_text_to_text(file, "How many are there") == '2'
@@ -30,8 +29,8 @@ PDFS = [
 
 class File:
     def __init__(self, file):
-        self.bytes = rootfs.cat(file)
-        self.file  = rootfs.file(file)
+        self.bytes = wnix.cat(file)
+        self.file  = wnix.file(file)
 
     def __repr__(self):
         cls = self.__class__.__name__
