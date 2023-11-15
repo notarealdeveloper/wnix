@@ -4,6 +4,8 @@ __all__ = [
     'grep',
     'greps',
     'format_grep',
+    'List',
+    'Object',
 ]
 
 import wnix
