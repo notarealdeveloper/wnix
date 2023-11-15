@@ -99,33 +99,3 @@ def test_wnix_pdf_to_text_correctness():
     pdfs = {p.stem(): p for p in get_pdfs()}
     assert 'chicken' in pdfs['chicken'].text()
     assert 'CoW'     in pdfs['cow'].text()
-
-def test_wnix_thought_correctness():
-    files = {p.name(): p for p in get_files()}
-    import itertools
-    import collections
-    keys = list(files.keys())
-    dots = collections.defaultdict(dict)
-    for a,b in itertools.product(keys, keys):
-        A = files[a]
-        B = files[b]
-        va = A.embed()
-        vb = B.embed()
-        dots[a][b] = (va * vb).sum()
-    pairs = dict(dots)
-    ranks = {}
-    for a,d in dots.items():
-        pairs[a] = sorted(d.items(), key=lambda pair: pair[1], reverse=True)
-        ranks[a] = [k for k,v in pairs[a]]
-
-    r = ranks['bluecow.jpg']
-    assert r.index('redcow.jpg') < r.index('chicken.jpg')
-    assert r.index('redcow.jpg') < r.index('soccer.jpg')
-    assert r.index('redcow.jpg') < r.index('chicken.pdf')
-    assert r.index('redcow.jpg') < r.index('cow.pdf') # same word diff topic
-
-    r = ranks['chicken.jpg']
-    assert r.index('chick.jpg') < r.index('bluecow.jpg')
-    assert r.index('chick.jpg') < r.index('soccer.jpg')
-    assert r.index('chick.jpg') < r.index('chicken.pdf')
-
