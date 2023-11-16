@@ -4,7 +4,7 @@ import os
 
 def test_grep_shell():
 
-    cmd = "lines baseball basketball rugby soccer | Grep 'european,american' sports"
+    cmd = "echo baseball basketball rugby soccer | fmt -1 | Grep 'european,american' sports"
     out = os.popen(cmd).read().splitlines()
 
     assert out == [
