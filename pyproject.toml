@@ -23,9 +23,6 @@ dependencies = [
 [tool.setuptools.package-data]
 wnix = ["**/*"]
 
-[tool.setuptools.exclude-package-data]
-wnix = ["**/__pycache__"]
-
 [project.urls]
 "Homepage" = "https://github.com/notarealdeveloper/wnix"
 
