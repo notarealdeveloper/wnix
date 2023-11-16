@@ -11,6 +11,8 @@ __all__ = [
     'EmbedFlag',
 ]
 
+import os
+
 class EmbedFlag:
 
     from functools import lru_cache

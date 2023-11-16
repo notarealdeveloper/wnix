@@ -17,6 +17,7 @@ def main(argv=None):
     parser.add_argument('-k', '--keysep', default=',')
     parser.add_argument('-t', '--typesep', default=':')
     parser.add_argument('-d', '--debug', action='store_true')
+    parser.add_argument('-o', '--only', action='store_true')
 
     args = parser.parse_args(argv)
 

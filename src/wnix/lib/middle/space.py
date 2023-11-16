@@ -45,7 +45,7 @@ class Space:
             vals = list(arg.values())
             embs = self.gets(vals)
             return dict(zip(keys, embs))
-        raise TypeError(f"Not sure how to think about {arg.__class__.__name__}: {arg!r}")
+        raise TypeError(f"Can't think about {arg.__class__.__name__}: {arg!r}")
 
     def gets(self, blobs):
         embeds = {}

@@ -7,3 +7,4 @@
 
 from .pipes import *
 from .what import *
+from .array import *

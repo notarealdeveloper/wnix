@@ -4,8 +4,9 @@ __all__ = [
     'grep',
     'greps',
     'format_grep',
-    'List',
     'Object',
+    'List',
+    'Dict',
 ]
 
 import wnix
@@ -85,7 +86,7 @@ class L(O):
         return iter(self.l)
 
     def __add__(self, other):
-        return L([''.join(pair) for pair in itertools.product(self, other)])
+        return L([''.join(p) for p in itertools.product(self, other)])
 
     def __repr__(self):
         return repr(self.l)
@@ -100,13 +101,19 @@ class F(O):
 
     def centerofmass(self):
         # center of mass: different from subtracting mean from self!
-        return self.f.mean(axis=1)
+        return S(self.f.mean(axis=1))
+
+    def dot(self, other):
+        return self.f.T @ other.f
+
+    def sims(self, other):
+        return self.dot(self.at(self), other.at(other))
 
     def at(self, other):
         return F(self.f.subtract(other.centerofmass(), axis=0))
 
     def centered(self):
-        return self.at(self)
+        return F(self.at(self))
 
     def centered_at(self, other):
         return self.at(other)
@@ -114,9 +121,8 @@ class F(O):
     def __matmul__(self, other):
         return self.dot(other)
 
-    def __call__(self, other):
-        if other is None:
-            other = self
+    def __call__(self, other=None):
+        if other is None: other = self
         return self.at(other)
 
     def __repr__(self):
@@ -125,22 +131,26 @@ class F(O):
     def __getitem__(self, i):
         return self.f[i]
 
-    def dot(self, other):
-        return self.f.T @ other.f
-
-    def sims(self, other):
-        return self.dot(self.at(self), other.at(other))
-
     def __eq__(self, other):
         return np.allclose(self.f, other.f)
 
-class S(F):
+    def __sub__(self, other):
+        return self.f - other.f
+
+class S(O):
     def __init__(self, o):
         self.s = series(o)
         super().__init__(o)
 
     def name(self):
         return self.s.name
+
+    def __sub__(self, other):
+        return self.s - other.s
+
+    def __repr__(self):
+        return repr(self.s)
+
 
 class Object(S):
 
@@ -166,7 +176,6 @@ class List(F, L):
     def __iter__(self):
         return iter(self.o)
 
-
 class Dict(F, D):
 
     def __init__(self, o):
@@ -178,8 +187,6 @@ class Dict(F, D):
         else:
             raise IndexError(i)
 
-    def __iter__(self):
-        return iter(self.o)
 
 def argsort_reverse(a):
     return np.argsort(-a, axis=-1)
@@ -199,7 +206,13 @@ SIMILARITY_DEFINITIONS = [
 
 def grep(queries, keys, similarity_definition='a @ b', *, n=None):
     queries = assure.plural(queries)
-    a = List(queries)
+    keys = assure.plural(keys)
+    if isinstance(queries, list):
+        a = List(queries)
+    elif isinstance(queries, dict):
+        a = Dict(queries)
+    else:
+        raise TypeError(queries)
     if isinstance(keys, list):
         b = List(keys)
     elif isinstance(keys, dict):
@@ -210,7 +223,7 @@ def grep(queries, keys, similarity_definition='a @ b', *, n=None):
     i = argsort_reverse(s)
     g = 0*s
     g.iloc[:, :] = s.columns.values[i]
-    g.columns = range(1, len(g.columns)+1)
+    g.columns = [f'n{n}' for n in range(1, len(g.columns)+1)]
     g.columns.name = similarity_definition
     g = g.iloc[:, 0:n]
     return g
