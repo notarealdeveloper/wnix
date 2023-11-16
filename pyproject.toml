@@ -21,7 +21,7 @@ dependencies = [
 
 # For including the non-python files in the installed repo
 [tool.setuptools.package-data]
-rootfs = ["**/*"]
+wnix = ["**/*"]
 
 [project.urls]
 "Homepage" = "https://github.com/notarealdeveloper/wnix"

@@ -3,15 +3,18 @@ from .lib import *
 from .etc import *
 from .usr import *
 
-def root():
+def pwd():
     import os
     return os.path.dirname(__file__)
 
-def list(path):
+def ls(path='/'):
     return [p.stem for p in file(path).glob('*')]
 
-def find(path):
+def find(path='/'):
     return [p for p in file(path).rglob('*')]
+
+def cat(path):
+    return file(path).read_bytes()
 
 def file(path):
     import importlib.resources
@@ -19,9 +22,5 @@ def file(path):
     path = importlib.resources.files(__name__).joinpath(path)
     return path
 
-def cat(path):
-    return file(path).read_bytes()
-
 def lines(path):
     return cat(path).decode().splitlines()
-
