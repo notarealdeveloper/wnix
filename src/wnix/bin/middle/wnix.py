@@ -21,7 +21,7 @@ def main(argv=None):
 
     import wnix
     if args.cmd == 'pwd':
-        results = [wnix.root()]
+        results = [wnix.pwd()]
     if args.cmd == 'ls':
         results = wnix.ls(args.opts)
     if args.cmd == 'find':

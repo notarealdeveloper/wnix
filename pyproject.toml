@@ -23,6 +23,9 @@ dependencies = [
 [tool.setuptools.package-data]
 wnix = ["**/*"]
 
+[tool.setuptools.exclude-package-data]
+wnix = ["**/__pycache__"]
+
 [project.urls]
 "Homepage" = "https://github.com/notarealdeveloper/wnix"
 
@@ -32,14 +35,9 @@ input-pdf   = "wnix.bin.input.pdf:main"
 input-image = "wnix.bin.input.image:main"
 input-url   = "wnix.bin.input.url:main"
 input-html  = "wnix.bin.input.html:main"
-pdf         = "wnix.bin.input.pdf:main"
-image       = "wnix.bin.input.image:main"
-url         = "wnix.bin.input.url:main"
-html        = "wnix.bin.input.html:main"
 think       = "wnix.bin.middle.think:main"
 product     = "wnix.bin.middle.product:main"
-rootfs      = "wnix.bin.middle.rootfs:main"
+wnix        = "wnix.bin.middle.wnix:main"
 Grep        = "wnix.bin.middle.Grep:main"
-Sed         = "wnix.bin.middle.Sed:main"
 output      = "wnix.bin.output:main"
 what        = "wnix.bin.output.what:main"
