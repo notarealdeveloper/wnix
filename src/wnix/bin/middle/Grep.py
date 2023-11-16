@@ -12,7 +12,7 @@ def main(argv=None):
     parser = argparse.ArgumentParser('Grep')
     parser.add_argument('keys')
     parser.add_argument('type', nargs='?', help="Context information")
-    parser.add_argument('-n', '--num')
+    parser.add_argument('-n', '--num', type=int)
     parser.add_argument('-w', '--whole')
     parser.add_argument('-k', '--keysep', default=',')
     parser.add_argument('-t', '--typesep', default=':')

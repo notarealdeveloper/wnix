@@ -39,8 +39,29 @@ class Space:
         if isinstance(arg, (str, bytes)):
             return self.get(arg)
         if isinstance(arg, (list, tuple, set)):
-            return np.stack([self.get(blob) for blob in arg])
+            return self.gets(arg)
+        if isinstance(arg, dict):
+            keys = list(arg.keys())
+            vals = list(arg.values())
+            embs = self.gets(vals)
+            return dict(zip(keys, embs))
         raise TypeError(f"Not sure how to think about {arg.__class__.__name__}: {arg!r}")
+
+    def gets(self, blobs):
+        embeds = {}
+        todos = {}
+        for n, blob in enumerate(blobs):
+            try:
+                embeds[n] = self.load(blob)
+            except:
+                todos[n] = blob
+        ns = list(todos.keys())
+        bs = list(todos.values())
+        es = self.embed(bs)
+        for n, b, e in zip(ns, bs, es):
+            embeds[n] = e
+            self.save(b, e)
+        return np.stack([e for n,e in sorted(embeds.items())])
 
     def get(self, blob):
         try:
