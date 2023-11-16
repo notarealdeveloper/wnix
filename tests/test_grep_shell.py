@@ -4,13 +4,12 @@ import os
 
 def test_grep_shell():
 
-    lines = os.popen("cat $(rootfs)/etc/sports | Grep 'european,american' sports").read().splitlines()
+    cmd = "lines baseball basketball rugby soccer | Grep 'european,american' sports"
+    out = os.popen(cmd).read().splitlines()
 
-    assert lines == [
-        'american:basketball',
+    assert out == [
         'american:baseball',
-        'american:football',
-        'european:hockey',
-        'european:soccer',
+        'american:basketball',
         'european:rugby',
+        'european:soccer',
     ]

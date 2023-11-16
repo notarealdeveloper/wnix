@@ -200,7 +200,12 @@ SIMILARITY_DEFINITIONS = [
 def grep(queries, keys, similarity_definition='a @ b', *, n=None):
     queries = assure.plural(queries)
     a = List(queries)
-    b = List(keys)
+    if isinstance(keys, list):
+        b = List(keys)
+    elif isinstance(keys, dict):
+        b = Dict(keys)
+    else:
+        raise TypeError(keys)
     s = eval(similarity_definition)
     i = argsort_reverse(s)
     g = 0*s
