@@ -34,6 +34,8 @@ def frame(o):
         o = [o]
     if is_instance(o, list[str]):
         return pd.DataFrame(embed(o).T, columns=o)
+    if is_instance(o, dict[str, str]):
+        return pd.DataFrame(embed(list(o.values())).T, columns=list(o.keys()))
     raise TypeError(o)
 
 # ======================
@@ -41,6 +43,32 @@ def frame(o):
 class O:
     def __init__(self, o):
         self.o = o
+
+class D(O):
+    def __init__(self, o):
+        self.d = o
+        super().__init__(o)
+
+    def __getitem__(self, i):
+        return self.d[i]
+
+    def __len__(self):
+        return len(self.d)
+
+    def __iter__(self):
+        return iter(self.d)
+
+    def __repr__(self):
+        return repr(self.d)
+
+    def keys(self):
+        return list(self.d.keys())
+
+    def values(self):
+        return list(self.d.values())
+
+    def items(self):
+        return list(self.d.items())
 
 class L(O):
     def __init__(self, o):
@@ -138,6 +166,20 @@ class List(F, L):
     def __iter__(self):
         return iter(self.o)
 
+
+class Dict(F, D):
+
+    def __init__(self, o):
+        super().__init__(dict(o))
+
+    def __getitem__(self, i):
+        if is_instance(i, str | list[str]):
+            return self.f[i]
+        else:
+            raise IndexError(i)
+
+    def __iter__(self):
+        return iter(self.o)
 
 def argsort_reverse(a):
     return np.argsort(-a, axis=-1)

@@ -6,21 +6,18 @@ import os
 import sys
 import argparse
 
-from wnix import grep, format_grep
-
-def get_values(arg):
-    if os.path.exists(arg):
-        return open(arg).read().splitlines()
-    else:
-        return [a.strip() for a in arg.split('|')]
-
 def main(argv=None):
     if argv is None:
         argv = sys.argv[1:]
     parser = argparse.ArgumentParser('Grep')
     parser.add_argument('keys')
+    parser.add_argument('type', nargs='?', help="Context information")
     parser.add_argument('-n', '--num')
     parser.add_argument('-w', '--whole')
+    parser.add_argument('-k', '--keysep', default=',')
+    parser.add_argument('-t', '--typesep', default=':')
+    parser.add_argument('-d', '--debug', action='store_true')
+
     args = parser.parse_args(argv)
 
     if args.whole:
@@ -28,9 +25,25 @@ def main(argv=None):
     else:
         queries = sys.stdin.read().splitlines()
 
-    keys = get_values(args.keys)
-    g = grep(queries, keys)
-    output = format_grep(g, n=args.num)
+    if os.path.exists(args.keys):
+        keys = open(args.keys).read().splitlines()
+    else:
+        keys = [a.strip() for a in args.keys.split(args.keysep)]
+
+    if len(keys) == 1:
+        keys.append('other')
+
+    if args.type:
+        dict = {key: f"{args.type}{args.typesep}{key}" for key in keys}
+    else:
+        dict = {key: key for key in keys}
+
+    import wnix
+    grep = wnix.grep(queries, dict)
+    if args.debug:
+        print('dict:\n', dict, '\n', '='*42, file=sys.stderr)
+        print('grep:\n', grep, '\n', '='*42, file=sys.stderr)
+    output = wnix.format_grep(grep, n=args.num)
     print(output)
 
 if __name__ == '__main__':
