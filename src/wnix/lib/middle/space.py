@@ -41,13 +41,16 @@ class Space:
         if isinstance(arg, (list, tuple, set)):
             return np.stack([self.get(a) for a in arg])
         if isinstance(arg, dict):
-            keys = list(arg.keys())
-            vals = list(arg.values())
-            embs = self.gets(vals)
+            keys = arg.keys()
+            vals = arg.values()
+            embs = [self.get(val) for val in vals]
             return dict(zip(keys, embs))
         raise TypeError(f"Can't think about {arg.__class__.__name__}: {arg!r}")
 
     def gets(self, blobs):
+        """ Not currently used, but keep this around in case
+            we want to enable it for speeding up the GPU case. """
+        raise NotImplementedError("Don't use this yet")
         embeds = {}
         todos = {}
         for n, blob in enumerate(blobs):
