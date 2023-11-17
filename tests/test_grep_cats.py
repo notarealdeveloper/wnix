@@ -70,3 +70,8 @@ def test_grep_cats_3(debug=False):
         if debug:
             print(g)
             print('='*42)
+
+if __name__ == '__main__':
+    test_grep_cats_1()
+    test_grep_cats_2()
+    test_grep_cats_3()

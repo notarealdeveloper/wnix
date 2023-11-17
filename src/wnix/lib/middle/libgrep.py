@@ -101,7 +101,7 @@ class F(O):
 
     def centerofmass(self):
         # center of mass: different from subtracting mean from self!
-        return S(self.f.mean(axis=1))
+        return self.f.mean(axis=1)
 
     def dot(self, other):
         return self.f.T @ other.f
