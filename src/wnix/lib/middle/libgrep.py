@@ -4,6 +4,7 @@ __all__ = [
     'grep',
     'greps',
     'format_grep',
+    'promote',
     'Object',
     'List',
     'Dict',
@@ -204,26 +205,28 @@ SIMILARITY_DEFINITIONS = [
     'a(b) @ b(b)',
 ]
 
+def promote(o):
+    if isinstance(o, (list, tuple, set)):
+        return List(o)
+    elif isinstance(o, dict):
+        return Dict(o)
+    elif isinstance(o, str):
+        return Object(o)
+    elif isinstance(o, bytes):
+        return Object(o.decode())
+    elif isinstance(o, (List, Dict, Object)):
+        return o
+    else:
+        raise TypeError(o)
+
 def grep(queries, keys, similarity_definition='a @ b', *, n=None):
-    queries = assure.plural(queries)
-    keys = assure.plural(keys)
-    if isinstance(queries, list):
-        a = List(queries)
-    elif isinstance(queries, dict):
-        a = Dict(queries)
-    else:
-        raise TypeError(queries)
-    if isinstance(keys, list):
-        b = List(keys)
-    elif isinstance(keys, dict):
-        b = Dict(keys)
-    else:
-        raise TypeError(keys)
-    s = eval(similarity_definition)
+    q = promote(assure.plural(queries))
+    k = promote(assure.plural(keys))
+    s = (lambda a,b: eval(similarity_definition))(q,k)
     i = argsort_reverse(s)
     g = 0*s
     g.iloc[:, :] = s.columns.values[i]
-    g.columns = [f'n{n}' for n in range(1, len(g.columns)+1)]
+    g.columns = list(range(1, len(g.columns)+1))
     g.columns.name = similarity_definition
     g = g.iloc[:, 0:n]
     return g
