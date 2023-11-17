@@ -39,7 +39,7 @@ class Space:
         if isinstance(arg, (str, bytes)):
             return self.get(arg)
         if isinstance(arg, (list, tuple, set)):
-            return self.gets(arg)
+            return np.stack([self.get(a) for a in arg])
         if isinstance(arg, dict):
             keys = list(arg.keys())
             vals = list(arg.values())
