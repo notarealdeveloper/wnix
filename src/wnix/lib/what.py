@@ -9,16 +9,13 @@ __all__ = ['what']
 # def what(query, keys):
 #     return Grep(query, keys, n=1)
 
-import wnix
 import assure
-import numpy as np
-from .types import List
-
-def norm(A, axis=-1, keepdims=True):
-    return np.linalg.norm(A, axis=axis, keepdims=keepdims)
+import embd
 
 def unit(A, axis=-1, keepdims=True):
-    return A / norm(A, axis=axis, keepdims=keepdims)
+    import numpy as np
+    norm = np.linalg.norm(A, axis=axis, keepdims=keepdims)
+    return A / norm
 
 def similarities(q, K):
     Q = q[None, :]
@@ -28,8 +25,9 @@ def similarities(q, K):
     return sims
 
 def what(query, keys):
+    import numpy as np
     q = assure.vector(query)
-    K = List(keys).f.values.T
+    K = embd.List(keys).f.values.T
     s = similarities(q, K)
     I = np.argsort(s.ravel())[::-1]
     return np.array(keys)[I].tolist()

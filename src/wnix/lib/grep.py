@@ -5,7 +5,7 @@ __all__ = [
 ]
 
 import assure
-from .types import Object, List, Dict
+import embd
 
 SIMILARITY_DEFINITIONS = [
     'a @ b',
@@ -18,25 +18,6 @@ SIMILARITY_DEFINITIONS = [
     'a(b) @ b(a)',
     'a(b) @ b(b)',
 ]
-
-
-def argsort_reverse(a):
-    import numpy as np
-    return np.argsort(-a, axis=-1)
-
-def promote(o):
-    if isinstance(o, (list, tuple, set)):
-        return List(o)
-    elif isinstance(o, dict):
-        return Dict(o)
-    elif isinstance(o, str):
-        return List([o])
-    elif isinstance(o, bytes):
-        return List([o.decode()])
-    elif isinstance(o, (List, Dict)):
-        return o
-    else:
-        raise TypeError(o)
 
 class Grep:
 
@@ -51,12 +32,13 @@ class Grep:
         return SIMILARITY_DEFINITIONS
 
     def __init__(self, queries, keys, *, n=1, sims='a @ b'):
-        q = promote(queries)
-        k = promote(keys)
+        q = embd.promote(queries)
+        k = embd.promote(keys)
         if sims not in SIMILARITY_DEFINITIONS:
             raise ValueError(f"sims must be one of: {self.sims()}")
         s = (lambda a,b: eval(sims))(q,k)
-        i = argsort_reverse(s)
+        import numpy as np
+        i = np.argsort(-s)
         g = 0*s
         g.iloc[:, :] = s.columns.values[i]
         g.columns = list(range(1, len(g.columns)+1))
