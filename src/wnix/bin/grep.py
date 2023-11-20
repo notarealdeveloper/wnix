@@ -39,12 +39,12 @@ def main(argv=None):
     else:
         dict = {key: key for key in keys}
 
-    import wnix
-    grep = wnix.grep(queries, dict)
+    from wnix import Grep
+    grep = Grep(queries, dict)
     if args.debug:
         print('dict:\n', dict, '\n', '='*42, file=sys.stderr)
         print('grep:\n', grep, '\n', '='*42, file=sys.stderr)
-    output = wnix.format_grep(grep, n=args.num)
+    output = grep.csv(n=args.num)
     print(output)
 
 if __name__ == '__main__':

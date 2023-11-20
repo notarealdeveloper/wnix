@@ -30,6 +30,5 @@ wnix = ["**/*"]
 [project.scripts]
 input       = "wnix.bin.input:main"
 wnix        = "wnix.bin.wnix:main"
-think       = "wnix.bin.think:main"
-Grep        = "wnix.bin.Grep:main"
 what        = "wnix.bin.what:main"
+Grep        = "wnix.bin.grep:main"
