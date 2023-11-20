@@ -1,11 +1,13 @@
 #!/usr/bin/env python3
 
 import wnix
+import assure
+import pathlib
 
 # recompute these every time without any explicit caching, as a speed check
 
 def test_wnix_image_and_text_to_text_correctness():
-    file = wnix.file('/usr/share/cats.jpg')
+    file = 'root/usr/share/cats.jpg'
     assert wnix.image_and_text_to_text(file, "What animal is this?") == 'cat'
     assert wnix.image_and_text_to_text(file, "What animals are these?") == 'cats'
     assert wnix.image_and_text_to_text(file, "How many are there") == '2'
@@ -13,24 +15,24 @@ def test_wnix_image_and_text_to_text_correctness():
     assert wnix.image_and_text_to_text(file, "How many dogs are there") == '0'
 
 IMAGES = [
-    '/usr/share/cats.jpg',
-    '/usr/share/bluecow.jpg',
-    '/usr/share/redcow.jpg',
-    '/usr/share/soccer.jpg',
-    '/usr/share/cooked.jpg',
-    '/usr/share/chicken.jpg',
-    '/usr/share/chick.jpg',
+    'root/usr/share/cats.jpg',
+    'root/usr/share/bluecow.jpg',
+    'root/usr/share/redcow.jpg',
+    'root/usr/share/soccer.jpg',
+    'root/usr/share/cooked.jpg',
+    'root/usr/share/chicken.jpg',
+    'root/usr/share/chick.jpg',
 ]
 
 PDFS = [
-    '/usr/share/chicken.pdf',
-    '/usr/share/cow.pdf',
+    'root/usr/share/chicken.pdf',
+    'root/usr/share/cow.pdf',
 ]
 
 class File:
     def __init__(self, file):
-        self.bytes = wnix.cat(file)
-        self.file  = wnix.file(file)
+        self.file  = pathlib.Path(file)
+        self.bytes = assure.bytes(open(file, 'rb'))
 
     def __repr__(self):
         cls = self.__class__.__name__
