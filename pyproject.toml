@@ -17,6 +17,7 @@ dependencies = [
     "transformers",
     "pytest",
     "assure",
+    "drivers",
 ]
 
 # For including the non-python files in the installed repo
@@ -28,12 +29,7 @@ wnix = ["**/*"]
 
 [project.scripts]
 input       = "wnix.bin.input:main"
-input-pdf   = "wnix.bin.input.pdf:main"
-input-image = "wnix.bin.input.image:main"
-input-url   = "wnix.bin.input.url:main"
-input-html  = "wnix.bin.input.html:main"
-think       = "wnix.bin.middle.think:main"
-wnix        = "wnix.bin.middle.wnix:main"
-Grep        = "wnix.bin.middle.Grep:main"
-output      = "wnix.bin.output:main"
-what        = "wnix.bin.output.what:main"
+wnix        = "wnix.bin.wnix:main"
+think       = "wnix.bin.think:main"
+Grep        = "wnix.bin.Grep:main"
+what        = "wnix.bin.what:main"

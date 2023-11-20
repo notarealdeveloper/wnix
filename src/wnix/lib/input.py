@@ -8,7 +8,3 @@
 from drivers import pdf
 from drivers import html
 from drivers import image
-
-from drivers.pdf.lib import *
-from drivers.html.lib import *
-from drivers.image.lib import *
