@@ -20,6 +20,7 @@ def series(o, space=None):
     raise TypeError
 
 def frame(o, space=None):
+    import numpy as np
     import pandas as pd
     if space is None:
         space = embd
@@ -33,6 +34,12 @@ def frame(o, space=None):
         return pd.DataFrame(space.think(o).T, columns=o)
     if is_instance(o, dict[str, str]):
         return pd.DataFrame(space.think(list(o.values())).T, columns=list(o.keys()))
+    if is_instance(o, np.ndarray):
+        return pd.DataFrame(o.T, columns=list(range(len(o))))
+    if is_instance(o, list[np.ndarray]):
+        return pd.DataFrame(np.stack(o).T, columns=list(range(len(o))))
+    if is_instance(o, dict[int, np.ndarray]):
+        return pd.DataFrame(np.stack(list(o.values())).T, columns=list(o.keys()))
     raise TypeError(o)
 
 # ======================

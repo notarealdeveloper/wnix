@@ -14,7 +14,7 @@ check:
 	pytest -v tests
 
 check-shell:
-	tests/test_wnix.sh
+	tests/test_what.sh
 
 uninstall:
 	pip uninstall $(PKG)

@@ -9,7 +9,7 @@ def main(argv=None):
     import argparse
     if argv is None:
         argv = sys.argv[1:]
-    parser = argparse.ArgumentParser('what')
+    parser = argparse.ArgumentParser('What')
     parser.add_argument('file')
     args = parser.parse_args(argv)
 
