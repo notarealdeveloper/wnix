@@ -9,15 +9,6 @@ from wnix import grep, greps
 # we should never (for example) move to the center of
 # mass of the set of queries.
 
-# note, the word fuck is necessary in queries 2.
-# on replacing "meows while you fuck her" with the
-# more polite "meows in bed", the model suddenly
-# infers biological cat, i.e., "girl cat", which
-# is a reasonable guess in retrospect, so let's
-# be clear about what we means since this is a
-# fucking test suite :p
-
-
 QUERIES_1 = [
     'a guy pretending to be a cat',
     'a drunk guy who thinks hes a lion',
@@ -28,7 +19,7 @@ QUERIES_1 = [
 ]
 
 QUERIES_2 = [
-    'a girl who meows while you fuck her',
+    'a quirky tinder match named jane who meows at you',
     'an obnoxious e-girl who wears ears',
     'your submissive furry girlfriend',
     'your fierce pet tabby mrs boots',
