@@ -2,32 +2,7 @@
 
 __all__ = ['what']
 
-# TODO: this module is a legacy implementation and will soon be replaced
-# with a call to soft Grep with different arguments once we can make this work:
-#
-# from .grep import Grep
-# def what(query, keys):
-#     return Grep(query, keys, n=1)
-
-import assure
-import embd
-
-def unit(A, axis=-1, keepdims=True):
-    import numpy as np
-    norm = np.linalg.norm(A, axis=axis, keepdims=keepdims)
-    return A / norm
-
-def similarities(q, K):
-    Q = q[None, :]
-    K = unit(K)
-    import scipy.special
-    sims = scipy.special.softmax(Q @ K.T, axis=-1)
-    return sims
-
-def what(query, keys):
-    import numpy as np
-    q = assure.vector(query)
-    K = embd.List(keys).f.values.T
-    s = similarities(q, K)
-    I = np.argsort(s.ravel())[::-1]
-    return np.array(keys)[I].tolist()
+def what(query, keys, n=1):
+    from .grep import Grep
+    g = Grep(query, keys)
+    return g.what(n=n)

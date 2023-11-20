@@ -1,4 +1,5 @@
 __all__ = [
+    'Attn',
     'Grep',
     'grep',
     'greps',
@@ -19,26 +20,54 @@ SIMILARITY_DEFINITIONS = [
     'a(b) @ b(b)',
 ]
 
-class Grep:
 
-    @classmethod
-    def all(cls, queries, keys, *, n=None):
-        """ Evaluate possible definitions of grep interactively
-            by varying the definition of similarity """
-        return [cls(queries, keys, n=n, sims=sims) for sims in cls.sims()]
+class Attn:
 
-    @classmethod
-    def sims(cls):
-        return SIMILARITY_DEFINITIONS
+    def __init__(self, queries, keys, *, sims='a @ b'):
 
-    def __init__(self, queries, keys, *, n=1, sims='a @ b'):
         q = embd.promote(queries)
         k = embd.promote(keys)
-        if sims not in SIMILARITY_DEFINITIONS:
-            raise ValueError(f"sims must be one of: {self.sims()}")
-        s = (lambda a,b: eval(sims))(q,k)
+
+        if sims not in self.sims_defs():
+            raise ValueError(f"sims must be one of: {self.sims_defs()}")
+
+        s = self.sims(q, k, sims)
+
         import numpy as np
         i = np.argsort(-s)
+
+        self.queries = queries
+        self.keys = keys
+        self.q = q
+        self.k = k
+        self.s = s
+        self.i = i
+
+    @classmethod
+    def all(cls, queries, keys, *, sims='a @ b', **kwds):
+        """ Evaluate possible definitions of similarity """
+        return [cls(queries, keys, sims=sims, **kwds) for sims in cls.sims_defs()]
+
+    @classmethod
+    def sims_defs(cls):
+        return SIMILARITY_DEFINITIONS
+
+    @classmethod
+    def sims(cls, q, k, sims):
+        return (lambda a,b: eval(sims))(q,k)
+
+    def __repr__(self):
+        return repr(self.s)
+
+
+class Grep(Attn):
+
+    def __init__(self, queries, keys, *, sims='a @ b', n=None):
+
+        super().__init__(queries, keys, sims=sims)
+        s = self.s
+        i = self.i
+
         g = 0*s
         g.iloc[:, :] = s.columns.values[i]
         g.columns = list(range(1, len(g.columns)+1))
@@ -46,11 +75,6 @@ class Grep:
         g = g.iloc[:, 0:n]
 
         # attributes
-        self.queries = queries
-        self.keys = keys
-        self.q = q
-        self.k = k
-        self.s = s
         self.i = i
         self.g = g
 
@@ -59,6 +83,19 @@ class Grep:
 
     def __getitem__(self, n):
         return self.g[n]
+
+    def what(self, n=None):
+        l = self.g.values.tolist()
+        import numpy as np
+        return np.array([a[:n] for a in l])
+
+    def fmt_what(self, n=None):
+        ll = self.what(n=n)
+        l = [','.join(a) for a in ll]
+        return '\n'.join(l)
+
+    def fmt_grep(self, n=1):
+        return self.csv(n=n)
 
     def csv(self, n=1):
         import pandas as pd

@@ -11,6 +11,7 @@ def main(argv=None):
         argv = sys.argv[1:]
     parser = argparse.ArgumentParser('What')
     parser.add_argument('file')
+    parser.add_argument('-n', type=int, default=1)
     args = parser.parse_args(argv)
 
     if args.file and os.path.exists(args.file):
@@ -20,9 +21,12 @@ def main(argv=None):
 
     import embd
     import wnix
-    q = embd.stdin_to_tensor()
-    ranks = wnix.what(q, keys)
-    output = '\n'.join(ranks)
+    space = embd.Space()
+    shape = space.embed.shape()
+
+    # receive a tensor across a pipe! 🎉
+    Q = embd.stdin_to_tensor().reshape((-1, shape))
+    output = wnix.Grep(Q, keys).fmt_what(n=args.n)
     print(output)
 
 if __name__ == '__main__':
