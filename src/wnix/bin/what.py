@@ -4,11 +4,9 @@ __all__ = ['main']
 
 import os
 import sys
-import argparse
-
-import wnix
 
 def main(argv=None):
+    import argparse
     if argv is None:
         argv = sys.argv[1:]
     parser = argparse.ArgumentParser('what')
@@ -20,7 +18,9 @@ def main(argv=None):
     else:
         keys = sys.argv[1:]
 
-    q = wnix.stdin_to_tensor()
+    import embd
+    import wnix
+    q = embd.stdin_to_tensor()
     ranks = wnix.what(q, keys)
     output = '\n'.join(ranks)
     print(output)

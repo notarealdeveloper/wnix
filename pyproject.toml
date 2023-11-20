@@ -6,17 +6,12 @@ authors = [
 ]
 description = "Unix coreutils for software 2.0"
 dependencies = [
-    "requests",
-    "bs4",
-    "fleep",
-    "validators",
-    "numpy",
-    "Pillow",
-    "pypdf",
-    "sentence_transformers",
-    "transformers",
     "pytest",
+    "pandas",
+    "is_instance",
     "assure",
+    "mmry",
+    "embd",
     "drivers",
 ]
 
@@ -28,7 +23,5 @@ wnix = ["**/*"]
 "Homepage" = "https://github.com/notarealdeveloper/wnix"
 
 [project.scripts]
-input       = "wnix.bin.input:main"
-wnix        = "wnix.bin.wnix:main"
-what        = "wnix.bin.what:main"
-Grep        = "wnix.bin.grep:main"
+What = "wnix.bin.what:main"
+Grep = "wnix.bin.grep:main"
