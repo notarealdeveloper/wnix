@@ -23,5 +23,5 @@ wnix = ["**/*"]
 "Homepage" = "https://github.com/notarealdeveloper/wnix"
 
 [project.scripts]
-What = "wnix.bin.what:main"
-Grep = "wnix.bin.grep:main"
+what = "wnix.bin.what:main"
+grep2 = "wnix.bin.grep:main"
