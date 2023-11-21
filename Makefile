@@ -8,6 +8,7 @@ install: build
 	pip install dist/*.tar.gz
 
 develop:
+	pip install --upgrade pip
 	pip install -e .
 
 check:
