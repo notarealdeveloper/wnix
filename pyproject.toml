@@ -10,9 +10,9 @@ dependencies = [
     "pandas",
     "is_instance",
     "assure",
-    "mmry",
-    "embd",
-    "drivers",
+    "mmry >= 0.0.3",
+    "drivers >= 0.0.4",
+    "embd >= 0.0.5",
 ]
 
 # For including the non-python files in the installed repo
