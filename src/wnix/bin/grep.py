@@ -9,7 +9,7 @@ import argparse
 def main(argv=None):
     if argv is None:
         argv = sys.argv[1:]
-    parser = argparse.ArgumentParser('Grep')
+    parser = argparse.ArgumentParser('grep2')
     parser.add_argument('keys')
     parser.add_argument('type', nargs='?', help="Context information")
     parser.add_argument('-n', '--num', type=int)
