@@ -3,6 +3,7 @@
 __all__ = ['main']
 
 import os
+import re
 import sys
 import argparse
 
@@ -15,7 +16,7 @@ def main(argv=None):
     parser.add_argument('-w', '--whole')
     parser.add_argument('-f', '--file', type=str, default=None)
     parser.add_argument('-d', '--debug', action='store_true')
-    parser.add_argument('-o', '--only', action='store_true')
+    parser.add_argument('-o', '--only', type=str, default=None)
     parser.add_argument('-t', '--type', default=None)
     parser.add_argument('-T', '--typesep', default=':')
     parser.add_argument('-K', '--keysep', default=',')
@@ -68,9 +69,11 @@ def main(argv=None):
         print('dict:\n', dict, '\n', '='*42, file=sys.stderr)
         print('grep:\n', grep, '\n', '='*42, file=sys.stderr)
     output = grep.csv(n=args.num)
+
     if args.only:
         lines = output.splitlines()
-        lines = [l for l in lines if l.startswith(keys[0])]
+        # file to lines that start with the provided regex
+        lines = [line for line in lines if re.match(f"^{args.only}.*", line.split(':')[0])]
         output = '\n'.join(lines)
     print(output)
 
