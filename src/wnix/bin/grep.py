@@ -17,6 +17,7 @@ def main(argv=None):
     parser.add_argument('-f', '--file', type=str, default=None)
     parser.add_argument('-d', '--debug', action='store_true')
     parser.add_argument('-o', '--only', type=str, default=None)
+    parser.add_argument('-1', '--only-first', action='store_true')
     parser.add_argument('-v', '--invert-match', action='store_true')
     parser.add_argument('-t', '--type', default=None)
     parser.add_argument('-T', '--typesep', default=':')
@@ -55,6 +56,9 @@ def main(argv=None):
         keys = open(args.file).read().splitlines()
     else:
         keys = [a.strip() for a in args.keys.split(args.keysep)]
+
+    if args.only_first:
+        args.only = keys[0]
 
     if len(keys) == 1:
         keys.append('other')
