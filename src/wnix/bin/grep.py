@@ -45,6 +45,10 @@ def main(argv=None):
         print('dict:\n', dict, '\n', '='*42, file=sys.stderr)
         print('grep:\n', grep, '\n', '='*42, file=sys.stderr)
     output = grep.csv(n=args.num)
+    if args.only:
+        lines = output.splitlines()
+        lines = [l for l in lines if l.startswith(keys[0])]
+        output = '\n'.join(lines)
     print(output)
 
 if __name__ == '__main__':
