@@ -17,6 +17,7 @@ def main(argv=None):
     parser.add_argument('-f', '--file', type=str, default=None)
     parser.add_argument('-d', '--debug', action='store_true')
     parser.add_argument('-o', '--only', type=str)
+    parser.add_argument('-s', '--sims', type=str, default='a(a) @ b')
     parser.add_argument('-q', '--only-first', action='store_true')
     parser.add_argument('-v', '--invert-match', action='store_true')
     parser.add_argument('-t', '--type', default=None)
@@ -74,7 +75,7 @@ def main(argv=None):
         dict = {key: key for key in keys}
 
     from wnix import Grep
-    grep = Grep(queries, dict)
+    grep = Grep(queries, dict, sims=args.sims)
     if args.debug:
         print('dict:\n', dict, '\n', '='*42, file=sys.stderr)
         print('grep:\n', grep, '\n', '='*42, file=sys.stderr)
