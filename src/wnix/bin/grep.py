@@ -17,6 +17,7 @@ def main(argv=None):
     parser.add_argument('-f', '--file', type=str, default=None)
     parser.add_argument('-d', '--debug', action='store_true')
     parser.add_argument('-o', '--only', type=str, default=None)
+    parser.add_argument('-v', '--invert-match', action='store_true')
     parser.add_argument('-t', '--type', default=None)
     parser.add_argument('-T', '--typesep', default=':')
     parser.add_argument('-K', '--keysep', default=',')
@@ -72,8 +73,13 @@ def main(argv=None):
 
     if args.only:
         lines = output.splitlines()
-        # file to lines that start with the provided regex
-        lines = [line for line in lines if re.match(f"^{args.only}.*", line.split(':')[0])]
+        # filter to lines that start with the provided regex
+        is_match = lambda line: re.match(f"^{args.only}.*", line.split(':')[0])
+        if args.invert_match:
+            is_good = lambda line: not is_match(line)
+        else:
+            is_good = lambda line: is_match(line)
+        lines = [line for line in lines if is_good(line)]
         output = '\n'.join(lines)
     print(output)
 
