@@ -1,0 +1,17 @@
+#!/bin/bash
+
+ls
+
+cat usr/share/cats.jpg | input
+
+cat usr/share/cats.jpg | input "How many cats?"
+
+cat usr/share/chicken.pdf | input | think
+
+cat usr/share/chicken.pdf | input | think -l      # -l/--lines embeds each line of stdin
+
+cat usr/share/chicken.pdf | input | think | what etc/animals
+
+cat usr/share/redcow.jpg | input | think | what etc/animals
+
+cat usr/share/redcow.jpg | input | think | what etc/colors

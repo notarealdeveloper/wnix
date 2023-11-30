@@ -1,0 +1,30 @@
+#!/usr/bin/env python3
+
+from wnix import grep
+
+def foo():
+    n = 1
+    while True:
+        n += 1
+    return n
+
+def bar():
+    n = 0
+    for k in range(100):
+        n += k
+    return n
+
+def baz():
+    n = 1
+    while n > 0:
+        n += 1
+    return n
+
+import inspect
+functions  = (foo, bar, baz)
+sources    = [inspect.getsource(f) for f in functions]
+names      = [f.__name__ for f in functions]
+keys       = ['infinite loop', 'finite loop']
+queries    = dict(zip(names, sources))
+g = grep(queries, keys, n=1, sims='a(a) @ b')
+print(g)
