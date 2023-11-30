@@ -4,12 +4,12 @@ import os
 
 def test_grep_shell():
 
-    cmd = "echo baseball basketball rugby soccer | fmt -1 | grep2 -n 1 'european,american' sports"
+    cmd = "echo baseball basketball rugby soccer | fmt -1 | grep2 -n 1 'european sport,american sport'"
     out = os.popen(cmd).read().splitlines()
 
     assert out == [
-        'american:baseball',
-        'american:basketball',
-        'european:rugby',
-        'european:soccer',
+        'american sport:baseball',
+        'american sport:basketball',
+        'european sport:rugby',
+        'european sport:soccer',
     ]

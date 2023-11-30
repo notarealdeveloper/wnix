@@ -14,10 +14,11 @@ def main(argv=None):
     parser.add_argument('-n', '--num', type=int)
     parser.add_argument('-w', '--whole')
     parser.add_argument('-f', '--file', type=str, default=None)
-    parser.add_argument('-k', '--keysep', default=',')
-    parser.add_argument('-t', '--typesep', default=':')
     parser.add_argument('-d', '--debug', action='store_true')
     parser.add_argument('-o', '--only', action='store_true')
+    parser.add_argument('-t', '--type', default=None)
+    parser.add_argument('-T', '--typesep', default=':')
+    parser.add_argument('-K', '--keysep', default=',')
     parser.add_argument('-A', '--after', type=int, default=0)
     parser.add_argument('-B', '--before', type=int, default=0)
     parser.add_argument('-C', '--context', type=int, default=0)
@@ -56,10 +57,10 @@ def main(argv=None):
     if len(keys) == 1:
         keys.append('other')
 
-    #if args.type:
-    #    dict = {key: f"{args.type}{args.typesep}{key}" for key in keys}
-    #else:
-    #    dict = {key: key for key in keys}
+    if args.type:
+        dict = {key: f"{args.type}{args.typesep}{key}" for key in keys}
+    else:
+        dict = {key: key for key in keys}
 
     from wnix import Grep
     grep = Grep(queries, dict)
