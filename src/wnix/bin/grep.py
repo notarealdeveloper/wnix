@@ -12,12 +12,12 @@ def main(argv=None):
         argv = sys.argv[1:]
     parser = argparse.ArgumentParser('grep2')
     parser.add_argument('keys', nargs='?')
-    parser.add_argument('-n', '--num', type=int)
+    parser.add_argument('-n', '--num', type=str, default='1')
     parser.add_argument('-w', '--whole')
     parser.add_argument('-f', '--file', type=str, default=None)
     parser.add_argument('-d', '--debug', action='store_true')
-    parser.add_argument('-o', '--only', type=str, default=None)
-    parser.add_argument('-1', '--only-first', action='store_true')
+    parser.add_argument('-o', '--only', type=str)
+    parser.add_argument('-q', '--only-first', action='store_true')
     parser.add_argument('-v', '--invert-match', action='store_true')
     parser.add_argument('-t', '--type', default=None)
     parser.add_argument('-T', '--typesep', default=':')
@@ -26,6 +26,11 @@ def main(argv=None):
     parser.add_argument('-B', '--before', type=int, default=0)
     parser.add_argument('-C', '--context', type=int, default=0)
     args = parser.parse_args(argv)
+
+    if args.num == 'all':
+        args.num = None
+    else:
+        args.num = int(args.num)
 
     before = after = 0
     if args.context:
@@ -79,12 +84,14 @@ def main(argv=None):
         lines = output.splitlines()
         # filter to lines that start with the provided regex
         is_match = lambda line: re.match(f"^{args.only}.*", line.split(':')[0])
+        orig_line = lambda line: line[line.index(':')+1:]
         if args.invert_match:
             is_good = lambda line: not is_match(line)
         else:
             is_good = lambda line: is_match(line)
-        lines = [line for line in lines if is_good(line)]
+        lines = [orig_line(line) for line in lines if is_good(line)]
         output = '\n'.join(lines)
+
     print(output)
 
 if __name__ == '__main__':

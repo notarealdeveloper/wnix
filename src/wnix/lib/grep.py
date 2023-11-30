@@ -101,10 +101,14 @@ class Grep(Attn):
         import pandas as pd
         g = self.g
         g = g.iloc[:, 0:n]
-        q = g.index.tolist()
-        k = g.to_csv(index=False, header=False)
-        d = pd.DataFrame(q, index=k.splitlines())
-        o = d.to_csv(index=True,header=False,sep=':').strip()
+        qs = g.index.tolist()
+        Ks = g.values
+        lines = []
+        for q,K in zip(qs,Ks):
+            k = ','.join(K)
+            line = f"{k}:{q}"
+            lines.append(line)
+        o = '\n'.join(lines)
         return o
 
     def tolist(self):
