@@ -10,10 +10,10 @@ def main(argv=None):
     if argv is None:
         argv = sys.argv[1:]
     parser = argparse.ArgumentParser('grep2')
-    parser.add_argument('keys')
-    parser.add_argument('type', nargs='?', help="Context information")
+    parser.add_argument('keys', nargs='?')
     parser.add_argument('-n', '--num', type=int)
     parser.add_argument('-w', '--whole')
+    parser.add_argument('-f', '--file', type=str, default=None)
     parser.add_argument('-k', '--keysep', default=',')
     parser.add_argument('-t', '--typesep', default=':')
     parser.add_argument('-d', '--debug', action='store_true')
@@ -48,16 +48,18 @@ def main(argv=None):
 
     if os.path.exists(args.keys):
         keys = open(args.keys).read().splitlines()
+    elif args.file:
+        keys = open(args.file).read().splitlines()
     else:
         keys = [a.strip() for a in args.keys.split(args.keysep)]
 
     if len(keys) == 1:
         keys.append('other')
 
-    if args.type:
-        dict = {key: f"{args.type}{args.typesep}{key}" for key in keys}
-    else:
-        dict = {key: key for key in keys}
+    #if args.type:
+    #    dict = {key: f"{args.type}{args.typesep}{key}" for key in keys}
+    #else:
+    #    dict = {key: key for key in keys}
 
     from wnix import Grep
     grep = Grep(queries, dict)
