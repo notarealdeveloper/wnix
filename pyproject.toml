@@ -1,6 +1,6 @@
 [project]
 name = "wnix"
-version = "0.0.9"
+version = "0.0.10"
 authors = [
   { name="Jason Wilkes", email="notarealdeveloper@gmail.com" },
 ]
@@ -12,7 +12,7 @@ dependencies = [
     "assure",
     "mmry >= 0.0.5",
     "drivers >= 0.0.5",
-    "embd >= 0.1.1",
+    "embd >= 0.1.2",
 ]
 
 # For including the non-python files in the installed repo
