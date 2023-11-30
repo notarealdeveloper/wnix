@@ -1,5 +1,9 @@
 #!/usr/bin/env python3
 
+# soft grep solving a toy version of the halting problem
+#
+# (note, this is a joke... but it works in this simple case)
+
 from wnix import grep
 
 def foo():
