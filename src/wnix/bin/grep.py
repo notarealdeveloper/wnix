@@ -40,14 +40,14 @@ def main(argv=None):
         queries = sys.stdin.read().splitlines()
 
     # handle context arguments
-    qs = []
+    qdict = {}
     for n in range(len(queries)):
+        query = queries[n]
         window = queries[n-before:n+after+1]
         if len(window) == 0:
-            raise RuntimeError(f"Bug for line n = {n} with context before={before}, after={after}")
-        q = '\n'.join(window)
-        qs.append(q)
-    queries = qs
+            continue
+        qdict[query] = '\n'.join(window)
+    queries = qdict
 
     if os.path.exists(args.keys):
         keys = open(args.keys).read().splitlines()
