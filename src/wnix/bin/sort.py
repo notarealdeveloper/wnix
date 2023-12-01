@@ -5,13 +5,13 @@ __all__ = ['main']
 import os
 import re
 import sys
-import shlex
-import subprocess
 import argparse
+import subprocess
 
 def run(cmd, input):
-    p = subprocess.Popen(shlex.quote(cmd), shell=True, stdin=subprocess.PIPE, stdout=subprocess.PIPE)
-    stdout, stderr = p.communicate(input.encode())
+    p = subprocess.Popen(cmd, shell=True, stdin=subprocess.PIPE, stdout=subprocess.PIPE)
+    input = input.encode() if isinstance(input, str) else input
+    stdout, stderr = p.communicate(input)
     return stdout.decode()
 
 def main(argv=None):
@@ -20,21 +20,28 @@ def main(argv=None):
     parser = argparse.ArgumentParser('sort2')
     parser.add_argument('key')
     parser.add_argument('-c', '--cmd', type=str, default=None)
+    parser.add_argument('-p', '--paths', action='store_true', help="Interpret inputs as paths")
+    parser.add_argument('-i', '--input', action='store_true', help="Short for '-p -c input'")
     parser.add_argument('-d', '--debug', action='store_true')
     args = parser.parse_args(argv)
+
+    if args.input:
+        args.cmd = 'input'
+        args.paths = True
 
     from embd import List, Dict
 
     lines = sys.stdin.read().splitlines()
 
+    q = {l: l for l in lines}
+
+    if args.paths:
+        q = {k: open(v, 'rb').read() for k,v in q.items()}
+
     if args.cmd:
-        qs = [run(args.cmd, line) for line in lines]
-    else:
-        qs = lines
+        q = {k: run(args.cmd, v) for k,v in q.items()}
 
-    qs = {l:q for l,q in zip(lines, qs)}
-
-    q = Dict(qs)
+    q = Dict(q)
     k = List([args.key])
     s = q @ k
     if args.debug:
