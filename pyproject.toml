@@ -1,6 +1,6 @@
 [project]
 name = "wnix"
-version = "0.0.14"
+version = "0.0.15"
 authors = [
   { name="Jason Wilkes", email="notarealdeveloper@gmail.com" },
 ]
@@ -11,7 +11,7 @@ dependencies = [
     "is_instance",
     "assure",
     "mmry >= 0.0.5",
-    "drivers >= 0.0.5",
+    "kern >= 0.0.6",
     "embd >= 0.1.2",
 ]
 

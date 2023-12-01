@@ -1,6 +1,6 @@
 from mmry import *
 from embd import *
-from drivers import *
+from kern import *
 
 from .lib import *
 from . import bin

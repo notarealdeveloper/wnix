@@ -3,8 +3,8 @@
 import embd
 import assure
 import pathlib
-from drivers import pdf
-from drivers import image
+from kern import pdf
+from kern import image
 
 IMAGES = [
     'root/usr/share/cats.jpg',
