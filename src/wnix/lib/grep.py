@@ -32,6 +32,7 @@ class Attn:
             raise ValueError(f"sims must be one of: {self.sims_defs()}")
 
         s = self.sims(q, k, sims)
+        s.columns.name = sims
 
         import numpy as np
         i = np.argsort(-s)
