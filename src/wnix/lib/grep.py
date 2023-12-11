@@ -20,10 +20,11 @@ SIMILARITY_DEFINITIONS = [
     'a(b) @ b(b)',
 ]
 
+DEFAULT_SIMDEF = 'a @ b'
 
 class Attn:
 
-    def __init__(self, queries, keys, *, sims='a @ b'):
+    def __init__(self, queries, keys, *, sims=DEFAULT_SIMDEF):
 
         q = embd.promote(queries)
         k = embd.promote(keys)
@@ -31,7 +32,7 @@ class Attn:
         if sims not in self.sims_defs():
             raise ValueError(f"sims must be one of: {self.sims_defs()}")
 
-        s = self.sims(q, k, sims)
+        s = self.sims(q, k, sims).copy()
         s.columns.name = sims
 
         import numpy as np
@@ -45,7 +46,7 @@ class Attn:
         self.i = i
 
     @classmethod
-    def all(cls, queries, keys, *, sims='a @ b', **kwds):
+    def all(cls, queries, keys, *, sims=DEFAULT_SIMDEF, **kwds):
         """ Evaluate possible definitions of similarity """
         return [cls(queries, keys, sims=sims, **kwds) for sims in cls.sims_defs()]
 
@@ -63,7 +64,7 @@ class Attn:
 
 class Grep(Attn):
 
-    def __init__(self, queries, keys, *, sims='a @ b', n=None):
+    def __init__(self, queries, keys, *, sims=DEFAULT_SIMDEF, n=None):
 
         super().__init__(queries, keys, sims=sims)
         s = self.s
