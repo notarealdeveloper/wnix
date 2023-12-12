@@ -41,7 +41,8 @@ ANSWERS_3 = ANSWERS_1 + ANSWERS_2
 def test_grep_cats_1(debug=False):
     gs = greps(QUERIES_1, KEYS_1, n=1)
     for g in gs:
-        assert g[1].tolist() == ANSWERS_1
+        output = g[1].tolist()
+        assert output == ANSWERS_1, output
         if debug:
             print(g)
             print('='*42)
@@ -49,7 +50,8 @@ def test_grep_cats_1(debug=False):
 def test_grep_cats_2(debug=False):
     gs = greps(QUERIES_2, KEYS_2, n=1)
     for g in gs:
-        assert g[1].tolist() == ANSWERS_2
+        output = g[1].tolist()
+        assert output == ANSWERS_2, output
         if debug:
             print(g)
             print('='*42)
@@ -57,7 +59,8 @@ def test_grep_cats_2(debug=False):
 def test_grep_cats_3(debug=False):
     gs = greps(QUERIES_3, KEYS_3, n=1)
     for g in gs:
-        assert g[1].tolist() == ANSWERS_3
+        output = g[1].tolist()
+        assert output == ANSWERS_3, output
         if debug:
             print(g)
             print('='*42)
