@@ -12,7 +12,7 @@ def man_dirs():
 
 def man_page_paths():
     for man_dir in man_dirs():
-        for path in os.popen(f"find {man_dir!r} -type f -name '*.gz' | grep -P 'motd|whois|hostname'"):
+        for path in os.popen(f"find {man_dir!r} -type f -name '*.gz'"):
             yield path.strip()
 
 def man_cat(path):
