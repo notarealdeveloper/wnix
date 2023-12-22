@@ -16,7 +16,7 @@ def man_page_paths():
             yield path.strip()
 
 def man_cat(path):
-    text = os.popen(f"man {path!r} 2>/dev/null | awk '/^(NAME|DESCRIPTION)$/,/^$/ {if (NR > 1) print}'").read()
+    text = os.popen(f"man {path!r} 2>/dev/null | awk '/^(NAME|DESCRIPTION)$/,/^$/ {{if (NR > 1) print}}'").read()
     return text
 
 def man_cat_all():
