@@ -12,11 +12,11 @@ def man_dirs():
 
 def man_page_paths():
     for man_dir in man_dirs():
-        for path in os.popen(f"find {man_dir!r} -type f -name '*.gz'"):
+        for path in os.popen(f"find {man_dir!r}/ -type f -name '*.gz' | grep -E '/man[0-9]p?/'"):
             yield path.strip()
 
 def man_cat(path):
-    text = os.popen(f"cat {path!r} | gunzip | nroff -man 2>/dev/null").read()
+    text = os.popen(f"man {path!r} 2>/dev/null | cat").read()
     return text
 
 def man_cat_all():
