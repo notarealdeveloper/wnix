@@ -38,6 +38,19 @@ def man_cat(path):
         os.rename(f"{cache_path}.tmp", cache_path)
         return open(cache_path).read()
 
+def summarize(man_path):
+    # the man_path will always be coming from the cached text file at this point
+    import subprocess
+    text = man_cat(man_path)
+    p = subprocess.Popen(
+        """awk '/^NAME$/,/^$/ {if (!/^NAME$/ && !/^$/) {sub(/^\s*/, ""); print;}}'""",
+        shell=True,
+        stdin=subprocess.PIPE,
+        stdout=subprocess.PIPE,
+    )
+    stdout, stderr = p.communicate(text.encode())
+    return stdout.decode().strip()
+
 def man_cat_all():
     pages = {}
     for path in man_page_paths():
@@ -99,7 +112,8 @@ def main(argv=None):
         sims = K @ Q
         results = sims.sort_values(by=0, ascending=False).index.tolist()[:args.num]
         for result in results:
-            print(result)
+            summary = summarize(result) or result
+            print(summary, end='\n\n')
         return
 
     print("usage: man2 [-b] [keyword]")
