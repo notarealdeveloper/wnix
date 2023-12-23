@@ -32,7 +32,7 @@ def man_cat(path):
     if os.path.exists(cache_path):
         return open(cache_path).read()
     else:
-        text = os.popen(f"man {path!r} 2>/dev/null | awk '/^(NAME|DESCRIPTION)$/,/^$/ {{if (NR > 1) print}}' | strings -w").read()
+        text = os.popen(f"man {path!r} 2>/dev/null | awk '/^(NAME|DESCRIPTION)$/,/^$/ {{if (NR > 1) print}}'").read()
         with open(f"{cache_path}.tmp", 'w') as fp:
             fp.write(text)
         os.rename(f"{cache_path}.tmp", cache_path)
@@ -112,7 +112,7 @@ def main(argv=None):
         sims = K @ Q
         results = sims.sort_values(by=0, ascending=False).index.tolist()[:args.num]
         for result in results:
-            summary = summarize(result) or result
+            summary = summarize(result) or f"No NAME in man page, submit a PR: {result}"
             print(summary, end='\n\n')
         return
 
