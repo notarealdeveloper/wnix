@@ -19,7 +19,7 @@ def man_dirs():
 
 def man_page_paths():
     for man_dir in man_dirs():
-        for path in os.popen(f"find {man_dir!r}/ -type f -name '*.gz' | grep -E 'man/man1/' | sort | uniq"):
+        for path in os.popen(f"find {man_dir!r} -type f | grep -E 'man/man1/' | sort | uniq"):
             yield path.strip()
 
 def get_cache_path(man_path):
