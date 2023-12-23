@@ -5,6 +5,13 @@ import sys
 import embd
 import argparse
 
+CACHE_ROOT = os.path.join(
+    os.getenv('HOME'),
+    '.cache',
+    'wnix',
+    'man2',
+)
+
 def man_dirs():
     for dir in os.popen('manpath').read().split(':'):
         if os.path.exists(dir):
@@ -15,6 +22,10 @@ def man_page_paths():
         for path in os.popen(f"find {man_dir!r}/ -type f -name '*.gz' | grep -E 'man/man[0-9]/' | sort | uniq"):
             yield path.strip()
 
+def get_cache_path(man_path):
+    cache_path = os.path.join(CACHE_ROOT, man_path.lstrip('/'))
+    return cache_path
+
 def man_cat(path):
     # TODO: this is too slow, but the embd.{save,load}_name mechanism
     # doesn't yet integrate well with Dict, and it's not yet clear what
@@ -22,8 +33,16 @@ def man_cat(path):
     # libraries less reliable or more complicated, maybejust cache some text
     # in ~/.cache/wnix/man2 after we pull the relevant sections out of the
     # man pages here.
-    text = os.popen(f"man {path!r} 2>/dev/null | awk '/^(NAME|DESCRIPTION)$/,/^$/ {{if (NR > 1) print}}'").read()
-    return text
+    cache_path = get_cache_path(path)
+    os.makedirs(os.path.dirname(cache_path), exist_ok=True)
+    if os.path.exists(cache_path):
+        return open(cache_path).read()
+    else:
+        text = os.popen(f"man {path!r} 2>/dev/null | awk '/^(NAME|DESCRIPTION)$/,/^$/ {{if (NR > 1) print}}' | strings -w").read()
+        with open(f"{cache_path}.tmp", 'w') as fp:
+            fp.write(text)
+        os.rename(f"{cache_path}.tmp", cache_path)
+        return open(cache_path).read()
 
 def man_cat_all():
     pages = {}
