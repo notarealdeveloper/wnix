@@ -19,7 +19,7 @@ def man_dirs():
 
 def man_page_paths():
     for man_dir in man_dirs():
-        for path in os.popen(f"find {man_dir!r}/ -type f -name '*.gz' | grep -E 'man/man[0-9]/' | sort | uniq"):
+        for path in os.popen(f"find {man_dir!r}/ -type f -name '*.gz' | grep -E 'man/man1/' | sort | uniq"):
             yield path.strip()
 
 def get_cache_path(man_path):
@@ -27,12 +27,6 @@ def get_cache_path(man_path):
     return cache_path
 
 def man_cat(path):
-    # TODO: this is too slow, but the embd.{save,load}_name mechanism
-    # doesn't yet integrate well with Dict, and it's not yet clear what
-    # the right design there is, so rather than risk making the low-level
-    # libraries less reliable or more complicated, maybejust cache some text
-    # in ~/.cache/wnix/man2 after we pull the relevant sections out of the
-    # man pages here.
     cache_path = get_cache_path(path)
     os.makedirs(os.path.dirname(cache_path), exist_ok=True)
     if os.path.exists(cache_path):
