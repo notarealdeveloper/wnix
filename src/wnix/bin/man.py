@@ -16,6 +16,12 @@ def man_page_paths():
             yield path.strip()
 
 def man_cat(path):
+    # TODO: this is too slow, but the embd.{save,load}_name mechanism
+    # doesn't yet integrate well with Dict, and it's not yet clear what
+    # the right design there is, so rather than risk making the low-level
+    # libraries less reliable or more complicated, maybejust cache some text
+    # in ~/.cache/wnix/man2 after we pull the relevant sections out of the
+    # man pages here.
     text = os.popen(f"man {path!r} 2>/dev/null | awk '/^(NAME|DESCRIPTION)$/,/^$/ {{if (NR > 1) print}}'").read()
     return text
 
