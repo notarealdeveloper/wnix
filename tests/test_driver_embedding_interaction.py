@@ -9,10 +9,10 @@ from kern import image
 IMAGES = [
     'root/usr/share/cats.jpg',
     'root/usr/share/bluecow.jpg',
-    'root/usr/share/redcow.jpg',
-    'root/usr/share/soccer.jpg',
+    'root/usr/share/redcow.webp',
+    'root/usr/share/soccer.bmp',
     'root/usr/share/cooked.jpg',
-    'root/usr/share/chicken.jpg',
+    'root/usr/share/chicken.png',
     'root/usr/share/chick.jpg',
 ]
 

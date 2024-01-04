@@ -11,8 +11,8 @@ dependencies = [
     "is_instance",
     "assure",
     "mmry >= 0.0.5",
-    "kern >= 0.0.6",
     "embd >= 0.1.2",
+    "kern >= 0.0.10",
 ]
 
 # For including the non-python files in the installed repo
@@ -20,10 +20,11 @@ dependencies = [
 wnix = ["**/*"]
 
 [project.urls]
-"Homepage" = "https://github.com/notarealdeveloper/wnix"
+source = "https://github.com/notarealdeveloper/wnix"
 
 [project.scripts]
 what  = "wnix.bin.what:main"
 grep2 = "wnix.bin.grep:main"
 sort2 = "wnix.bin.sort:main"
 man2  = "wnix.bin.man:main"
+cat2  = "wnix.bin.cat:main"
