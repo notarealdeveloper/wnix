@@ -110,10 +110,24 @@ def main(argv=None):
         K = Dict(man_pages)
         Q = List([query])
         sims = K @ Q
-        results = sims.sort_values(by=0, ascending=False).index.tolist()[:args.num]
+        results = sims.sort_values(by=0, ascending=False).index.tolist()
+
+        n = 0
+        printed = set()
         for result in results:
+            # many commands in the same package share a man page,
+            # so we don't know how many of our results will be
+            # duplicates beforehand, and therefore we can't just
+            # slice the first n, so loop until we get args.num
+            # different unique results.
             summary = summarize(result) or f"No NAME in man page, submit a PR: {result}"
+            if summary in printed:
+                continue # avoid duplicates
             print(summary, end='\n\n')
+            printed.add(summary)
+            n += 1
+            if n == args.num:
+                break
         return
 
     print("usage: man2 [-b] [keyword]")
