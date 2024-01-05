@@ -13,7 +13,7 @@ CACHE_ROOT = os.path.join(
 )
 
 def man_dirs():
-    for dir in os.popen('manpath').read().split(':'):
+    for dir in os.popen('manpath -q').read().split(':'):
         if os.path.exists(dir):
             yield dir
 
