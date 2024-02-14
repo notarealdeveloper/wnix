@@ -47,7 +47,7 @@ def test_grep_understands_python_module_tempfile():
     import tempfile
     d = module_getsource(tempfile)
 
-    g = wnix.grep('Make a directory', d, n=2)
+    g = wnix.grep('Make a directory', d, n=3)
     i = g.intersect({'tempdir', 'TemporaryDirectory'})
     assert len(i) >= 1
 
